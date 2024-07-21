@@ -7,4 +7,3 @@ require_once "./mvc/core/Controller.php";
 
 // Connect Database
 require_once "./mvc/core/DB.php";
-?>

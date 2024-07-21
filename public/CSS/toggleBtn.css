@@ -1,0 +1,123 @@
+
+menu {
+  --size: 2rem;
+  --radius: 6rem;
+  --padding: 1rem;
+  --bg-color: rgba(255, 255, 255, 0.9);
+  --fg-color: rgba(0, 0, 0, 0.7);
+  
+  position: fixed;
+  z-index: 200;
+  bottom: var(--padding);
+  right: var(--padding);
+  bottom: 80px !important;
+}
+
+menu > * {
+  position: absolute;
+  z-index:300;
+  display: grid;
+  place-content: center;
+  
+  border-radius: 50%;
+  
+  background: var(--bg-color);
+  color: var(--fg-color);
+  
+  text-decoration: none;
+  
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.6);
+}
+
+menu > a > .img_logo_Messenger{
+  width: 33px;
+}
+
+menu > a > .img_logo_zalo{
+  width: 60px;
+}
+
+menu > a > .img_logo_shoppe{
+  width: 40px;
+}
+
+menu > .icon_phone{
+  background-color: red;
+}
+menu > .icon_phone > i {
+  transform: rotate(331deg);
+}
+
+menu > .action {
+  --factor: 0;
+  
+  width: var(--size);
+  height: var(--size);
+  right: calc(0.35 * var(--size));
+  bottom: calc(0.35 * var(--size));
+  
+  opacity: 0;
+  
+  transform: rotate(calc(-1 * var(--angle))) translateY(calc(-1 * var(--radius) * var(--factor))) rotate(var(--angle));
+  
+  transition: transform 250ms ease-in-out, opacity 250ms ease-in-out, box-shadow 250ms ease-in-out, color 250ms ease-in-out;
+}
+
+menu > .action:hover, menu > .trigger:hover {
+   box-shadow: rgba(4, 237, 4, 0.2) 0px 0px 5px, rgba(4, 237, 4, 0.2) 0px 0px 10px, rgba(4, 237, 4, 0.2) 0px 0px 15px;
+}
+
+menu a.trigger {
+  text-decoration: none;
+}
+
+menu > .trigger:hover{
+  color: var(--ForestGree);
+}
+
+menu.open > .action {
+  --factor: 1;
+  
+  opacity: 1;
+}
+
+menu > .action:nth-child(1) {
+  --angle: 0deg;
+  transition-delay: 0ms;
+}
+
+menu > .action:nth-child(2) {
+  --angle: 30deg;
+  transition-delay: 50ms;
+}
+
+menu > .action:nth-child(3) {
+  --angle: 60deg;
+  transition-delay: 100ms;
+}
+
+menu > .action:nth-child(4) {
+  --angle: 90deg;
+  transition-delay: 150ms;
+}
+
+
+
+menu > .trigger {
+  width: calc(1.6 * var(--size));
+  height: calc(1.6 * var(--size));
+  bottom: 0;
+  right: 0;
+  
+  font-size: 2rem;
+  transition: box-shadow 250ms ease-in-out, color 250ms ease-in-out;
+}
+
+menu > .trigger > i {
+  transition: transform 250ms ease-in-out;
+}
+
+menu.open > .trigger > i {
+  transform: rotate(-135deg);
+}
+
