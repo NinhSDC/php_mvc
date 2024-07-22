@@ -2,7 +2,8 @@
 CREATE TABLE categorys (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     categoryName VARCHAR(255) NOT NULL,
-    description TEXT
+    description TEXT,
+    icon VARCHAR(255) NOT NULL,
 );
 
 -- Tạo bảng 'products'
@@ -13,6 +14,7 @@ CREATE TABLE products (
     price DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL,
     imageURL VARCHAR(255),
+    percent INT,
     FOREIGN KEY (categoryID) REFERENCES categorys(Id)
 );
 
@@ -124,14 +126,14 @@ CREATE TABLE userRole (
 );
 
 -- Chèn dữ liệu vào bảng 'categorys'
-INSERT INTO categorys (categoryName, description) VALUES
-('Rolex', 'Luxury watches from Switzerland.'),
-('Omega', 'High-precision watches from Switzerland.'),
-('Tag Heuer', 'Sporty and elegant watches from Switzerland.'),
-('Casio', 'Affordable and reliable watches from Japan.'),
-('Seiko', 'Innovative and stylish watches from Japan.'),
-('Citizen', 'Eco-friendly and durable watches from Japan.'),
-('Tissot', 'Swiss watches with a long tradition.');
+INSERT INTO categorys (categoryName, description, icon) VALUES
+('Rolex', 'Luxury watches from Switzerland.', "Rolex.png"),
+('Omega', 'High-precision watches from Switzerland.', "Omega.png"),
+('Tag Heuer', 'Sporty and elegant watches from Switzerland.', "TagHeuer.png"),
+('Casio', 'Affordable and reliable watches from Japan.', "Casio.png"),
+('Seiko', 'Innovative and stylish watches from Japan.', "Seiko.png"),
+('Citizen', 'Eco-friendly and durable watches from Japan.', "Citizen.png"),
+('Tissot', 'Swiss watches with a long tradition.', "Tissot.png");
 
 -- Chèn dữ liệu vào bảng 'products'
 INSERT INTO products (productName, categoryID, price, stock, imageURL) VALUES

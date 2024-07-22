@@ -45,10 +45,14 @@
                             if (isset($_COOKIE['error'])) {
                                 $cookieValue = $_COOKIE['error'];
                                 if ($cookieValue === "AccountNULL") {
-                                    echo "Tài Khoản Không Tồn Tại";
-                                } elseif ($cookieValue === "AccountFalse") {
+                                    echo "Tài Khoản Không Tồn Tại1";
+                                } elseif ($cookieValue === "AccountFalse1") {
                                     echo "Sai Tài Khoản Hoặc Mật Khẩu";
-                                } elseif ($cookieValue === "errorSystem") {
+                                    
+                                } elseif ($cookieValue === "AccountFalse2") {
+                                    echo "Sai Tài Khoản Hoặc Mật Khẩu2";
+                                    
+                                }elseif ($cookieValue === "errorSystem") {
                                     echo "Lỗi Hệ Thống ,chúng tôi sẽ khắc phụ sự cố sớm nhất có thể !!!";
                                 }
                             }

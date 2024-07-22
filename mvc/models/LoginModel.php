@@ -6,4 +6,15 @@ class LoginModel extends DB
         $sql = "SELECT email FROM users WHERE email ='$email'";
         return mysqli_query($this->conn, $sql);
     }
+
+    function GetInfoUser($email)
+    {
+        $sql = "SELECT users.*,
+         roles.roleName as roleName
+          FROM users 
+          LEFT JOIN userrole ON userrole.userID = users.Id 
+          LEFT JOIN roles ON roles.Id = userrole.roleId 
+          WHERE email ='$email'";
+        return mysqli_query($this->conn, $sql);
+    }
 }
