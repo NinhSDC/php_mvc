@@ -39,7 +39,7 @@ class Login extends Controller
                     $login = $this->LoginModel->GetInfoUser($User);
 
                     if ($login->num_rows < 0) {
-                        setcookie('error', "AccountFalse1", time() + 1);
+                        setcookie('error', "AccountFalse", time() + 1);
                         header('location: /php_mvc/Login');
                         die();
 
@@ -61,7 +61,7 @@ class Login extends Controller
                             header('location: /php_mvc/');
                         } 
                         else {
-                            setcookie('error', "AccountFalse2", time() + 1);
+                            setcookie('error', "AccountFalse", time() + 1);
                             header('location: /php_mvc/Login');
                             die();
                         }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2024 at 12:32 PM
+-- Generation Time: Jul 23, 2024 at 09:37 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,6 +45,13 @@ CREATE TABLE `carts` (
   `userID` int(11) DEFAULT NULL,
   `createdDate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`Id`, `userID`, `createdDate`) VALUES
+(1, 9, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -163,6 +170,122 @@ INSERT INTO `productdetail` (`Id`, `productID`, `description`, `material`, `size
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `productimgs`
+--
+
+CREATE TABLE `productimgs` (
+  `Id` int(11) NOT NULL,
+  `path` varchar(350) NOT NULL,
+  `sortOrder` int(11) NOT NULL,
+  `productId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `productimgs` (`Id`, `path`, `sortOrder`, `productId`) VALUES
+('1', 'img1.jpg', 1, 1),
+('2', 'img2.jpg', 2, 1),
+('3', 'img3.jpg', 3, 1),
+('4', 'img4.jpg', 4, 1),
+('5', 'img1.jpg', 1, 2),
+('6', 'img2.jpg', 2, 2),
+('7', 'img3.jpg', 3, 2),
+('8', 'img4.jpg', 4, 2),
+('9', 'img1.jpg', 1, 3),
+('10', 'img2.jpg', 2, 3),
+('11', 'img3.jpg', 3, 3),
+('12', 'img4.jpg', 4, 3),
+('13', 'img1.jpg', 1, 4),
+('14', 'img2.jpg', 2, 4),
+('15', 'img3.jpg', 3, 4),
+('16', 'img4.jpg', 4, 4),
+('17', 'img1.jpg', 1, 5),
+('18', 'img2.jpg', 2, 5),
+('19', 'img3.jpg', 3, 5),
+('20', 'img4.jpg', 4, 5),
+('21', 'img1.jpg', 1, 6),
+('22', 'img2.jpg', 2, 6),
+('23', 'img3.jpg', 3, 6),
+('24', 'img4.jpg', 4, 6),
+('25', 'img1.jpg', 1, 7),
+('26', 'img2.jpg', 2, 7),
+('27', 'img3.jpg', 3, 7),
+('28', 'img4.jpg', 4, 7),
+('29', 'img1.jpg', 1, 8),
+('30', 'img2.jpg', 2, 8),
+('31', 'img3.jpg', 3, 8),
+('32', 'img4.jpg', 4, 8),
+('33', 'img1.jpg', 1, 9),
+('34', 'img2.jpg', 2, 9),
+('35', 'img3.jpg', 3, 9),
+('36', 'img4.jpg', 4, 9),
+('37', 'img1.jpg', 1, 10),
+('38', 'img2.jpg', 2, 10),
+('39', 'img3.jpg', 3, 10),
+('40', 'img4.jpg', 4, 10),
+('41', 'img1.jpg', 1, 11),
+('42', 'img2.jpg', 2, 11),
+('43', 'img3.jpg', 3, 11),
+('44', 'img4.jpg', 4, 11),
+('45', 'img1.jpg', 1, 12),
+('46', 'img2.jpg', 2, 12),
+('47', 'img3.jpg', 3, 12),
+('48', 'img4.jpg', 4, 12),
+('49', 'img1.jpg', 1, 13),
+('50', 'img2.jpg', 2, 13),
+('51', 'img3.jpg', 3, 13),
+('52', 'img4.jpg', 4, 13),
+('53', 'img1.jpg', 1, 14),
+('54', 'img2.jpg', 2, 14),
+('55', 'img3.jpg', 3, 14),
+('56', 'img4.jpg', 4, 14),
+('57', 'img1.jpg', 1, 15),
+('58', 'img2.jpg', 2, 15),
+('59', 'img3.jpg', 3, 15),
+('60', 'img4.jpg', 4, 15),
+('61', 'img1.jpg', 1, 16),
+('62', 'img2.jpg', 2, 16),
+('63', 'img3.jpg', 3, 16),
+('64', 'img4.jpg', 4, 16),
+('65', 'img1.jpg', 1, 17),
+('66', 'img2.jpg', 2, 17),
+('67', 'img3.jpg', 3, 17),
+('68', 'img4.jpg', 4, 17),
+('69', 'img1.jpg', 1, 18),
+('70', 'img2.jpg', 2, 18),
+('71', 'img3.jpg', 3, 18),
+('72', 'img4.jpg', 4, 18),
+('73', 'img1.jpg', 1, 19),
+('74', 'img2.jpg', 2, 19),
+('75', 'img3.jpg', 3, 19),
+('76', 'img4.jpg', 4, 19),
+('77', 'img1.jpg', 1, 20),
+('78', 'img2.jpg', 2, 20),
+('79', 'img3.jpg', 3, 20),
+('80', 'img4.jpg', 4, 20),
+('81', 'img1.jpg', 1, 21),
+('82', 'img2.jpg', 2, 21),
+('83', 'img3.jpg', 3, 21),
+('84', 'img4.jpg', 4, 21),
+('85', 'img1.jpg', 1, 22),
+('86', 'img2.jpg', 2, 22),
+('87', 'img3.jpg', 3, 22),
+('88', 'img4.jpg', 4, 22),
+('89', 'img1.jpg', 1, 23),
+('90', 'img2.jpg', 2, 23),
+('91', 'img3.jpg', 3, 23),
+('92', 'img4.jpg', 4, 23),
+('93', 'img1.jpg', 1, 24),
+('94', 'img2.jpg', 2, 24),
+('95', 'img3.jpg', 3, 24),
+('96', 'img4.jpg', 4, 24),
+('97', 'img1.jpg', 1, 25),
+('98', 'img2.jpg', 2, 25),
+('99', 'img3.jpg', 3, 25),
+('100', 'img4.jpg', 4, 25);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `productpromotion`
 --
 
@@ -184,7 +307,6 @@ CREATE TABLE `products` (
   `categoryID` int(11) DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
   `stock` int(11) NOT NULL,
-  `imageURL` varchar(255) DEFAULT NULL,
   `percent` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -192,32 +314,32 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`Id`, `productName`, `categoryID`, `price`, `stock`, `imageURL`, `percent`) VALUES
-(1, 'Rolex Submariner', 1, 8000.00, 10, 'https://example.com/rolex_submariner.jpg', NULL),
-(2, 'Rolex Daytona', 1, 12000.00, 5, 'https://example.com/rolex_daytona.jpg', NULL),
-(3, 'Omega Seamaster', 2, 6000.00, 8, 'https://example.com/omega_seamaster.jpg', NULL),
-(4, 'Omega Speedmaster', 2, 7000.00, 7, 'https://example.com/omega_speedmaster.jpg', NULL),
-(5, 'Tag Heuer Carrera', 3, 5000.00, 12, 'https://example.com/tag_heuer_carrera.jpg', NULL),
-(6, 'Tag Heuer Monaco', 3, 5500.00, 6, 'https://example.com/tag_heuer_monaco.jpg', NULL),
-(7, 'Casio G-Shock', 4, 150.00, 50, 'https://example.com/casio_gshock.jpg', NULL),
-(8, 'Casio Edifice', 4, 200.00, 40, 'https://example.com/casio_edifice.jpg', NULL),
-(9, 'Seiko Presage', 5, 400.00, 20, 'https://example.com/seiko_presage.jpg', NULL),
-(10, 'Seiko Prospex', 5, 600.00, 15, 'https://example.com/seiko_prospex.jpg', NULL),
-(11, 'Citizen Eco-Drive', 6, 350.00, 25, 'https://example.com/citizen_ecodrive.jpg', NULL),
-(12, 'Citizen Promaster', 6, 450.00, 18, 'https://example.com/citizen_promaster.jpg', NULL),
-(13, 'Tissot Le Locle', 7, 700.00, 10, 'https://example.com/tissot_lelocle.jpg', NULL),
-(14, 'Tissot PRX', 7, 650.00, 12, 'https://example.com/tissot_prx.jpg', NULL),
-(15, 'Rolex Oyster Perpetual', 1, 9000.00, 7, 'https://example.com/rolex_oyster.jpg', NULL),
-(16, 'Omega Constellation', 2, 7500.00, 6, 'https://example.com/omega_constellation.jpg', NULL),
-(17, 'Tag Heuer Aquaracer', 3, 5200.00, 8, 'https://example.com/tag_heuer_aquaracer.jpg', NULL),
-(18, 'Casio Baby-G', 4, 100.00, 60, 'https://example.com/casio_babyg.jpg', NULL),
-(19, 'Seiko Astron', 5, 800.00, 10, 'https://example.com/seiko_astron.jpg', NULL),
-(20, 'Citizen Chronomaster', 6, 900.00, 5, 'https://example.com/citizen_chronomaster.jpg', NULL),
-(21, 'Tissot Seastar', 7, 800.00, 8, 'https://example.com/tissot_seastar.jpg', 5),
-(22, 'Rolex Explorer', 1, 10000.00, 4, 'https://example.com/rolex_explorer.jpg', 30),
-(23, 'Omega Planet Ocean', 2, 8500.00, 6, 'https://example.com/omega_planet_ocean.jpg', 15),
-(24, 'Tag Heuer Link', 3, 6000.00, 7, 'https://example.com/tag_heuer_link.jpg', 10),
-(25, 'Casio Pro Trek', 4, 250.00, 30, 'https://example.com/casio_pro_trek.jpg', 5);
+INSERT INTO `products` (`Id`, `productName`, `categoryID`, `price`, `stock`,  `percent`) VALUES
+(1, 'Rolex Submariner', 1, 8000.00, 10, NULL),
+(2, 'Rolex Daytona', 1, 12000.00, 5, NULL),
+(3, 'Omega Seamaster', 2, 6000.00, 8, NULL),
+(4, 'Omega Speedmaster', 2, 7000.00, 7, NULL),
+(5, 'Tag Heuer Carrera', 3, 5000.00, 12, NULL),
+(6, 'Tag Heuer Monaco', 3, 5500.00, 6, NULL),
+(7, 'Casio G-Shock', 4, 150.00, 50, NULL),
+(8, 'Casio Edifice', 4, 200.00, 40, NULL),
+(9, 'Seiko Presage', 5, 400.00, 20, NULL),
+(10, 'Seiko Prospex', 5, 600.00, 15, NULL),
+(11, 'Citizen Eco-Drive', 6, 350.00, 25, NULL),
+(12, 'Citizen Promaster', 6, 450.00, 18, NULL),
+(13, 'Tissot Le Locle', 7, 700.00, 10, NULL),
+(14, 'Tissot PRX', 7, 650.00, 12, NULL),
+(15, 'Rolex Oyster Perpetual', 1, 9000.00, 7, NULL),
+(16, 'Omega Constellation', 2, 7500.00, 6, NULL),
+(17, 'Tag Heuer Aquaracer', 3, 5200.00, 8, NULL),
+(18, 'Casio Baby-G', 4, 100.00, 60, NULL),
+(19, 'Seiko Astron', 5, 800.00, 10, NULL),
+(20, 'Citizen Chronomaster', 6, 900.00, 5, NULL),
+(21, 'Tissot Seastar', 7, 800.00, 8, 5),
+(22, 'Rolex Explorer', 1, 10000.00, 4, 30),
+(23, 'Omega Planet Ocean', 2, 8500.00, 6, 15),
+(24, 'Tag Heuer Link', 3, 6000.00, 7, 10),
+(25, 'Casio Pro Trek', 4, 250.00, 30, 5);
 
 -- --------------------------------------------------------
 
@@ -365,6 +487,13 @@ ALTER TABLE `productdetail`
   ADD UNIQUE KEY `productID` (`productID`);
 
 --
+-- Indexes for table `productimgs`
+--
+ALTER TABLE `productimgs`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `productId` (`productId`);
+
+--
 -- Indexes for table `productpromotion`
 --
 ALTER TABLE `productpromotion`
@@ -420,7 +549,7 @@ ALTER TABLE `cartdetail`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `categorys`
@@ -451,6 +580,12 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `productdetail`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `productimgs`
+--
+ALTER TABLE `productimgs`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `productpromotion`
@@ -530,6 +665,12 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `productdetail`
   ADD CONSTRAINT `productdetail_ibfk_1` FOREIGN KEY (`productID`) REFERENCES `products` (`Id`);
+
+--
+-- Constraints for table `productimgs`
+--
+ALTER TABLE `productimgs`
+  ADD CONSTRAINT `productId` FOREIGN KEY (`productId`) REFERENCES `products` (`Id`);
 
 --
 -- Constraints for table `productpromotion`
