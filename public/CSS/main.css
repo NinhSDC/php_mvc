@@ -1424,7 +1424,7 @@ p.product-price {
 /* ----------------------------------------------trang chi tiết sp-------------------------------------------------------------- */
 
 .detailProduct {
-  min-height: 500px;
+  min-height: 750px !important ;
   display: flex;
   justify-content: space-between;
   background: #fff;

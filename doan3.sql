@@ -170,10 +170,10 @@ INSERT INTO `productdetail` (`Id`, `productID`, `description`, `material`, `size
 -- --------------------------------------------------------
 
 --
--- Table structure for table `productimgs`
+-- Table structure for table `productImages`
 --
 
-CREATE TABLE `productimgs` (
+CREATE TABLE `productImages` (
   `Id` int(11) NOT NULL,
   `path` varchar(350) NOT NULL,
   `sortOrder` int(11) NOT NULL,
@@ -181,7 +181,7 @@ CREATE TABLE `productimgs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-INSERT INTO `productimgs` (`Id`, `path`, `sortOrder`, `productId`) VALUES
+INSERT INTO `productImages` (`Id`, `path`, `sortOrder`, `productId`) VALUES
 ('1', 'img1.jpg', 1, 1),
 ('2', 'img2.jpg', 2, 1),
 ('3', 'img3.jpg', 3, 1),
@@ -487,9 +487,9 @@ ALTER TABLE `productdetail`
   ADD UNIQUE KEY `productID` (`productID`);
 
 --
--- Indexes for table `productimgs`
+-- Indexes for table `productImages`
 --
-ALTER TABLE `productimgs`
+ALTER TABLE `productImages`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `productId` (`productId`);
 
@@ -582,9 +582,9 @@ ALTER TABLE `productdetail`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT for table `productimgs`
+-- AUTO_INCREMENT for table `productImages`
 --
-ALTER TABLE `productimgs`
+ALTER TABLE `productImages`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -667,9 +667,9 @@ ALTER TABLE `productdetail`
   ADD CONSTRAINT `productdetail_ibfk_1` FOREIGN KEY (`productID`) REFERENCES `products` (`Id`);
 
 --
--- Constraints for table `productimgs`
+-- Constraints for table `productImages`
 --
-ALTER TABLE `productimgs`
+ALTER TABLE `productImages`
   ADD CONSTRAINT `productId` FOREIGN KEY (`productId`) REFERENCES `products` (`Id`);
 
 --

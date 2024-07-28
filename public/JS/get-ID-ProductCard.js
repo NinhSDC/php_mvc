@@ -32,7 +32,7 @@ function addToCart(event, button) {
     var customerIdTMP = check;
     var productCard = button.closest(".product_card");
     var productId = productCard.getAttribute("id");
-
+    
     if (Array.isArray(customerIdTMP)) {
       var CustomerId = customerIdTMP[0];
       var UserId = customerIdTMP[1];

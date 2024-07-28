@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmallHall</title>
-    <link rel="WebSite icon" type="png" href="/php_mvc/Public/Assets/img/LOGO-fix-07.png">
+    <link rel="WebSite icon" type="png" href="/php_mvc/Public/Assets/img/imgLogo/logo.png">
     <link rel="stylesheet" href="/php_mvc/Public/CSS/base.css">
     <link rel="stylesheet" href="/php_mvc/Public/CSS/main.css">
     <link rel="stylesheet" href="/php_mvc/Public/CSS/Cart_Button.css">

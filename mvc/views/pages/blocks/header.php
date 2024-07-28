@@ -64,7 +64,7 @@ if (!isset($_SESSION['accountTMP'])) {
         <div class="header-with-search">
             <div class="header__logo">
                 <a href="/php_mvc/" class="header__logo-link">
-                    <img src="../php_mvc/Public/Assets/img/imgLogo/Logo.png" alt="">
+                    <img src="/php_mvc/Public/Assets/img/imgLogo/Logo.png" alt="">
                 </a>
             </div>
 
