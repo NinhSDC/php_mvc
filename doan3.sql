@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 29, 2024 at 01:56 AM
+-- Generation Time: Jul 29, 2024 at 12:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -417,23 +417,24 @@ CREATE TABLE `users` (
   `password` varchar(500) NOT NULL,
   `email` varchar(255) NOT NULL,
   `createdDate` datetime NOT NULL,
-  `phone` int(10) NOT NULL
+  `phone` int(10) NOT NULL,
+  `img` varchar(350) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`Id`, `username`, `password`, `email`, `createdDate`, `phone`) VALUES
-(1, 'ninh', '$2y$10$C7XbNATeEQ3VGBMdVd2rQ.iq3N7tyxb0Emb/nfzJKEpZIloTIk2vO', 'ninh@gmail.com', '2024-07-22 06:47:03', 0),
-(2, 'ninh', '$2y$10$B8SUoyMum9tH68xFRZROCuSz1NwXd8d7eFVCcUt74aJ.oy78jGCBW', 'ninhk@gmail.com', '2024-07-22 06:48:24', 0),
-(3, 'ninh', '$2y$10$3Ix6mI.NTvXRzJ0lR3xA4OMZDsku3zEKcDtPQVFQdTPYk6iw9S1ai', 'ninhkk@gmai.com', '2024-07-22 06:49:42', 0),
-(4, 'ninh', '$2y$10$RN5XUqDIWuWvrBSG.tRfYuiIm9ZlBH49Ocqh5hh7p3RHVA1etYkpy', 'ninhkkk@gmai.com', '2024-07-22 06:52:01', 0),
-(5, 'ninh', '$2y$10$.c9uebT0N/jfhxraeGf4qOXuiP/LXhcMCwDGUPAPEThQjA4HuDswe', 'ninhkki@gmai.com', '2024-07-22 06:56:31', 0),
-(6, 'ninh', '$2y$10$25sGGkgSxnP/IFvCRAepBuvaHEmyVtmWvgmO6x84n0nbm0LuLD34W', 'ninhkkdi@gmai.com', '2024-07-22 06:59:13', 0),
-(7, 'ninh', '$2y$10$k0n6T8tR.qKaCdAFarfhiOdoBqoDg5BzfAlXSAzT.k32WgqpuFbdG', 'qweqwe@gmail.com', '2024-07-22 09:15:19', 0),
-(8, 'qwe', '$2y$10$CDnRtX2kXUEorul8nUi2t.1L.PfCVPldVKdw7OqnkqxiTq8yQAG7S', 'qwe@gmail.com', '2024-07-22 11:49:52', 0),
-(9, 'ninh', '$2y$10$ezbl.ar3G2ehOl3qcdMEheL.rAf.Eg7bh/yQAgd2Fb9cfFLHzZLSC', 'ert@gmail.com', '2024-07-22 11:53:41', 0);
+INSERT INTO `users` (`Id`, `username`, `password`, `email`, `createdDate`, `phone`, `img`) VALUES
+(1, 'ninh', '$2y$10$C7XbNATeEQ3VGBMdVd2rQ.iq3N7tyxb0Emb/nfzJKEpZIloTIk2vO', 'ninh@gmail.com', '2024-07-22 06:47:03', 0, ''),
+(2, 'ninh', '$2y$10$B8SUoyMum9tH68xFRZROCuSz1NwXd8d7eFVCcUt74aJ.oy78jGCBW', 'ninhk@gmail.com', '2024-07-22 06:48:24', 0, ''),
+(3, 'ninh', '$2y$10$3Ix6mI.NTvXRzJ0lR3xA4OMZDsku3zEKcDtPQVFQdTPYk6iw9S1ai', 'ninhkk@gmai.com', '2024-07-22 06:49:42', 0, ''),
+(4, 'ninh', '$2y$10$RN5XUqDIWuWvrBSG.tRfYuiIm9ZlBH49Ocqh5hh7p3RHVA1etYkpy', 'ninhkkk@gmai.com', '2024-07-22 06:52:01', 0, ''),
+(5, 'ninh', '$2y$10$.c9uebT0N/jfhxraeGf4qOXuiP/LXhcMCwDGUPAPEThQjA4HuDswe', 'ninhkki@gmai.com', '2024-07-22 06:56:31', 0, ''),
+(6, 'ninh', '$2y$10$25sGGkgSxnP/IFvCRAepBuvaHEmyVtmWvgmO6x84n0nbm0LuLD34W', 'ninhkkdi@gmai.com', '2024-07-22 06:59:13', 0, ''),
+(7, 'ninh', '$2y$10$k0n6T8tR.qKaCdAFarfhiOdoBqoDg5BzfAlXSAzT.k32WgqpuFbdG', 'qweqwe@gmail.com', '2024-07-22 09:15:19', 0, ''),
+(8, 'qwe', '$2y$10$CDnRtX2kXUEorul8nUi2t.1L.PfCVPldVKdw7OqnkqxiTq8yQAG7S', 'qwe@gmail.com', '2024-07-22 11:49:52', 0, ''),
+(9, 'ninh', '$2y$10$ezbl.ar3G2ehOl3qcdMEheL.rAf.Eg7bh/yQAgd2Fb9cfFLHzZLSC', 'ert@gmail.com', '2024-07-22 11:53:41', 0, '');
 
 --
 -- Indexes for dumped tables
@@ -553,7 +554,7 @@ ALTER TABLE `cartdetail`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `categorys`

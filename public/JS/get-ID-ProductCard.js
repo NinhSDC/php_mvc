@@ -34,17 +34,17 @@ function addToCart(event, button) {
     var productId = productCard.getAttribute("id");
     
     if (Array.isArray(customerIdTMP)) {
-      var CustomerId = customerIdTMP[0];
-      var UserId = customerIdTMP[1];
+      var UserId = customerIdTMP[0];
 
-      // console.log('ID sản phẩm: ' + productId);
+       //console.log('ID sản phẩm: ' + productId);
 
       var data = {
         productId: productId,
-        customerId: CustomerId,
         userId: UserId,
         quantityProduct: 1,
       };
+
+      //console.log(data);
 
       $.ajax({
         type: "POST",

@@ -3,7 +3,7 @@ class CartModel extends DB
 {
     function CheckCartExist($userID)
     {
-        $sql = "SELECT *
+        $sql = "SELECT Carts.Id as Id
         FROM Carts
         WHERE userID = '$userID' ";
         return mysqli_query($this->conn, $sql);
@@ -19,16 +19,22 @@ class CartModel extends DB
 
     function CreatCart($userID)
     {
-        $sql = "INSERT INTO Carts (userID)
-                         VALUES ('$userID')";
+        $sql = "INSERT INTO `carts`( `userID`)
+                  VALUES ('$userID')";
+                  echo $sql;
         return mysqli_query($this->conn, $sql);
     }
 
     function GetCart($CartId)
     {
-        $sql = "SELECT *,
-                FROM CartDetail
-                WHERE CartDetails.CartId = '$CartId' ";
+        $sql = "SELECT CartDetail.quantity as Quantity,
+                CartDetail.Id as CartDetailId,
+                products.*,
+                products.Id as ProductId
+                FROM cartDetail 
+                LEFT JOIN products ON products.Id = cartDetail.productID
+                LEFT JOIN productImages ON productImages.productId = products.Id
+                WHERE cartDetail.cartId = '$CartId' ";
 
         return mysqli_query($this->conn, $sql);
     }
@@ -43,7 +49,7 @@ class CartModel extends DB
 
     function creatCartDetail($CartId, $ProductId, $Quantity)
     {
-        $sql = "INSERT INTO CartDetails (cartId,productId,quantity)
+        $sql = "INSERT INTO CartDetail (cartId,productId,quantity)
                 VALUES ('$CartId','$ProductId','$Quantity'";
         return mysqli_query($this->conn, $sql);
     }

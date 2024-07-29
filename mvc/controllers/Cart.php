@@ -98,13 +98,17 @@ class Cart extends Controller
             if (isset($_POST['productId'])) {
                 $ProductId = $_POST["productId"];
                 $UserId = $_POST["userId"];
+                //echo $UserId ;exit();
                 $QuantityProductTMP = $_POST['quantityProduct'];
 
                 $CheckCartExist = $this->CartModel->CheckCartExist($UserId);
                 //nếu chưa tồn tại cart thì sẽ tạo cart
                 if (mysqli_num_rows($CheckCartExist) == 0) {
+                    echo '00';exit();
                     $this->CartModel->CreatCart($UserId);
                 }
+                echo '02';exit();
+
                 //lâp lại 1 lần nữa checkcart để lấy ID cart 
                 $CheckCartExist = $this->CartModel->CheckCartExist($UserId);
 

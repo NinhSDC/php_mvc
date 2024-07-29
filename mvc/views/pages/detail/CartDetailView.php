@@ -21,19 +21,20 @@
                 $total_all = 0;
 
                 if (isset($_SESSION['accountTMP'])) {
-                    while ($rowProduct = sqlsrv_fetch_array($data['GetCart'])) {
-                        $Price_view = $rowProduct['PromotionPrice'] != null ? $rowProduct['PromotionPrice'] : $rowProduct['ProducPrice'];
-
+                    while ($rowProduct = mysqli_fetch_array($data['GetCart'])) {
+                        $Price_view = ($rowProduct['percent'] != null && $rowProduct['percent'] > 0) ?
+                        $rowProduct['price'] - ($rowProduct['price'] * $rowProduct['percent'] / 100) :
+                        $rowProduct['price'];
                         $total_tmp =  $Price_view * $rowProduct['Quantity'];
 
                 ?>
 
-                        <input type="hidden" name='CartDetailId[]' value="<?php echo $rowProduct['Id']; ?>">
+                        <input type="hidden" name='CartDetailId[]' value="<?php echo $rowProduct['CartDetailId']; ?>">
                         <input type="hidden" name='CartId[]' value="<?php echo $rowProduct['CartId']; ?>">
                         <input type="hidden" name='ProductId[]' value="<?php echo $rowProduct['ProductId']; ?>">
                         <tr>
                             <td>
-                                <a class="delProductToCart" data-id="<?php echo $rowProduct['Id']; ?>" href="">
+                                <a class="delProductToCart" data-id="<?php echo $rowProduct['ProductId']; ?>" href="">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </td>
@@ -42,13 +43,13 @@
                             </td>
                             <td class="td_2">
                                 <div class="a">
-                                    <a href="/php_mvc/Product/ProductDetail/<?php echo $rowProduct['ProductId']; ?>"><?php echo $rowProduct['ProductName'];  ?></a>
+                                    <a href="/php_mvc/Product/ProductDetail/<?php echo $rowProduct['ProductId']; ?>"><?php echo $rowProduct['productName'];  ?></a>
                                 </div>
 
                             </td>
                             <td>
                                 <div class="img">
-                                    <img src="<?php echo $rowProduct['Path'] ?>" alt="">
+                                    <img src="<?php echo $rowProduct['path'] ?>" alt="">
                                 </div>
                             </td>
                             <td>

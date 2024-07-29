@@ -1,15 +1,15 @@
-<?php while ($rowUser = sqlsrv_fetch_array($data['getInfoCustomer'])) {
-    if ($rowUser['Phone'] == "") {
+<?php while ($rowUser = mysqli_fetch_array($data['getInfoCustomer'])) {
+    if ($rowUser['phone'] == "") {
         $PhoneNumber = "null";
     } else {
-        $PhoneNumber = $rowUser['Phone'];
+        $PhoneNumber = $rowUser['phone'];
     } {;
     }
 ?>
     <div class="UserInfo grid wide row">
         <div class="UserInfo_left l-3-8">
             <div class="UserInfo_left_Img">
-                <img src="<?php echo $rowUser['Image'] ?>" alt="">
+                <img src="<?php echo $rowUser['img'] ?>" alt="">
                 <label class="file-input" for="file-input">
                     <i class="fa-regular fa-pen-to-square"></i>
                 </label>
@@ -17,7 +17,7 @@
             </div>
             <div class="UserInfo_left_Name">
                 <p>
-                    <?php echo $rowUser['Name'];  ?>
+                    <?php echo $rowUser['username'];  ?>
                 </p>
             </div>
             <div class="UserInfo_left_icon">
@@ -58,13 +58,11 @@
             </div>
             <div class="UserInfo_right_content">
                 <label for="">Họ Và Tên<p>*</p></label>
-                <input id="User_Name" name="User_Name" class="custom-input" type="text" value="<?php echo $rowUser['Name']; ?>" onchange="checkChanges()">
+                <input id="User_Name" name="User_Name" class="custom-input" type="text" value="<?php echo $rowUser['username']; ?>" onchange="checkChanges()">
                 <label for="">Số Điện Thoại<p>*</p></label>
                 <input id="User_PhoneNumber" name="User_PhoneNumber" class="custom-input" type="text" placeholder="" value="<?php echo  $PhoneNumber; ?>" onchange="checkChanges()">
                 <label for="">Địa chỉ email<p>*</p></label>
-                <input type="email" id="User_Email" name="User_Email" class="custom-input" type="text" value="<?php echo $rowUser['Email']; ?>" onchange="checkChanges()">
-                <label for="">Địa Chỉ<p>*</p></label>
-                <input type="" id="User_Address" name="User_Address" class="custom-input" type="text" value="<?php echo $rowUser['Address']; ?>" onchange="checkChanges()">
+                <input type="email" id="User_Email" name="User_Email" class="custom-input" type="text" value="<?php echo $rowUser['email']; ?>" onchange="checkChanges()">
                 <h4> THAY ĐỔI MẬT KHẨU </h4>
                 <label for="">Mật khẩu hiện tại (bỏ trống nếu không đổi)</label>
                 <input id="User_Pass" type="password" name="User_Pass" class="custom-input" type="text" value="" onchange="checkChanges()">
