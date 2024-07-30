@@ -155,9 +155,37 @@ function detailOrder(IdOrder) {
   // console.log(IdOrder)
 }
 
-$("#file-input").on("change", function () {
-  updateImg($(this).data("id"), this.files[0]);
+$(document).ready(function() {
+  $('#upload-icon').on('click', function() {
+      $('#file-input').click();
+  });
+  $('#file-input').on('change', function() {
+      var formData = new FormData();
+      var file = $('#file-input')[0].files[0];
+      var userId = $(this).data('id');
+      formData.append('file', file);
+      formData.append('userId', userId);
+      console.log(formData);
+      $.ajax({
+          url: '/php_mvc/User/updateImg/',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+              $('#result').html(response);
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+              console.log(textStatus, errorThrown);
+          }
+      });
+  });
 });
+
+// $("#file-input").on("change", function () {
+//   updateImg($(this).data("id"), this.files[0]);
+// });
+
 $(".DetailOrder").on("click", function () {
   var dataId = $(this).data("id");
   console.log(dataId);
