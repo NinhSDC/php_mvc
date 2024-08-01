@@ -7,19 +7,20 @@ function updateTextShadow() {
 
     if (currentPage.includes("/Cart/ShowBill")) {
 
-        completeLink.style.textShadow = "0 0 5px #04ed0475, 0 0 10px #04ed0475, 0 0 15px #04ed0475";
+        completeLink.style.textShadow = "0 0 5px #ed040474, 0 0 10px #ed040474, 0 0 15px #ed040474";
+
         cartLink.style.textShadow = "none";
         paymentLink.style.textShadow = "none";
 
     } else if (currentPage.includes("/Cart/updatesCartAndPay")) {
 
-        paymentLink.style.textShadow = "0 0 5px #04ed0475, 0 0 10px #04ed0475, 0 0 15px #04ed0475";
+        paymentLink.style.textShadow = "0 0 5px #ed040474, 0 0 10px #ed040474, 0 0 15px #ed040474";
         cartLink.style.textShadow = "none";
         completeLink.style.textShadow = "none"; 
 
     } else if (currentPage.includes("/Cart")) {
 
-        cartLink.style.textShadow = "0 0 5px #04ed0475, 0 0 10px #04ed0475, 0 0 15px #04ed0475";
+        cartLink.style.textShadow = "0 0 5px #ed040474, 0 0 10px #ed040474, 0 0 15px #ed040474";
         paymentLink.style.textShadow = "none";
         completeLink.style.textShadow = "none"; 
 

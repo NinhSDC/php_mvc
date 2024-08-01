@@ -49,7 +49,7 @@
                             </td>
                             <td>
                                 <div class="img">
-                                    <img src="<?php echo $rowProduct['path'] ?>" alt="">
+                                    <img src="<?php echo $rowProduct['pathImg'] ?>" alt="">
                                 </div>
                             </td>
                             <td>

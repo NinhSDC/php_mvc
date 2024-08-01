@@ -64,7 +64,7 @@ menu > .action {
 }
 
 menu > .action:hover, menu > .trigger:hover {
-   box-shadow: rgba(4, 237, 4, 0.2) 0px 0px 5px, rgba(4, 237, 4, 0.2) 0px 0px 10px, rgba(4, 237, 4, 0.2) 0px 0px 15px;
+   box-shadow: rgba(237, 4, 4, 0.2) 0px 0px 5px, rgba(237, 4, 4, 0.2) 0px 0px 10px, rgba(237, 4, 4, 0.2) 0px 0px 15px;
 }
 
 menu a.trigger {
