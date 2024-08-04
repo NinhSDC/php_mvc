@@ -107,13 +107,11 @@ function detailProduct_addToCart(event) {
   var productId = document.getElementById("ProductId").value;
   var QuantityProduct = document.getElementById("quantity").value;
 
-  var CustomerId = document.getElementById("CustomerId").value;
   var UserId = document.getElementById("UserId").value;
 
   var data = {
     productId: productId,
     quantityProduct: QuantityProduct,
-    customerId: CustomerId,
     userId: UserId,
   };
 

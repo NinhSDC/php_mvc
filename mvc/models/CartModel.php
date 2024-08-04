@@ -71,11 +71,18 @@ class CartModel extends DB
         return mysqli_query($this->conn, $sql);
     }
 
-    function UpdateCartDetail($CartId, $ProductId, $Quantity, )
+    function UpdateCartDetail($CartId, $ProductId, $Quantity,)
     {
-        $sql = "UPDATE CartDetails
-                SET Quantity = $Quantity
-                WHERE CartId = '$CartId' AND ProductId = '$ProductId'";
+        $sql = "UPDATE cartDetail
+                SET quantity = $Quantity
+                WHERE cartID = '$CartId' AND productID = '$ProductId'";
+        return mysqli_query($this->conn, $sql);
+    }
+
+    function CreateOrder($UserId, $Email, $PhoneNumber, $Address, $PaymentMethod, $Total)
+    {
+        $sql = "INSERT INTO `orders`( `userID`, `orderDate`, `totalAmount`, `status`, `email`, `addRess`, `paymentMethod`) 
+                            VALUES ('$UserId', CURDATE() ,'$Total', 1 ,'$Email','$Address','$PaymentMethod')";
         return mysqli_query($this->conn, $sql);
     }
 }

@@ -46,26 +46,28 @@
                         $total_all_addVoucher = 0;
                         $vouCher;
                         if (isset($_SESSION['accountTMP'])) {
-                            while ($rowProduct = sqlsrv_fetch_array($data['GetCart'])) {
-                                $Price_view = $rowProduct['PromotionPrice'] != null ? $rowProduct['PromotionPrice'] : $rowProduct['ProducPrice'];
+                            while ($rowProduct = mysqli_fetch_array($data['GetCart'])) {
+                                $Price_view = ($rowProduct['percent'] != null && $rowProduct['percent'] > 0) ?
+                                    $rowProduct['price'] - ($rowProduct['price'] * $rowProduct['percent'] / 100) :
+                                    $rowProduct['price'];
 
                                 $total_tmp = $Price_view * $rowProduct['Quantity'];
                         ?>
                                 <input type="hidden" name='ProductId[]' value="<?php echo $rowProduct['ProductId']; ?>">
-                                <input type="hidden" name='Path[]' value="<?php echo $rowProduct['Path']; ?>">
-                                <input type="hidden" name='ProductName[]' value="<?php echo $rowProduct['ProductName']; ?>">
+                                <input type="hidden" name='Path[]' value="<?php echo $rowProduct['pathImg']; ?>">
+                                <input type="hidden" name='ProductName[]' value="<?php echo $rowProduct['productName']; ?>">
                                 <input type="hidden" name='Quantity[]' value="<?php echo $rowProduct['Quantity'] ?>">
                                 <input type="hidden" name='PromotionPrice[]' value="<?php echo $Price_view; ?>">
 
                                 <tr>
                                     <td>
                                         <div>
-                                            <p href=""><?php echo $rowProduct['ProductName'];  ?></p>
+                                            <p href=""><?php echo $rowProduct['productName'];  ?></p>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <img src="<?php echo $rowProduct['Path'];  ?>" alt="">
+                                            <img src="<?php echo $rowProduct['pathImg'];  ?>" alt="">
                                         </div>
                                     </td>
                                     <td>

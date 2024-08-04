@@ -1,12 +1,10 @@
 <?php
 if (isset($_SESSION['accountTMP'])) {
 ?>
-    <input id="CustomerId" type="hidden" value="<?php echo $_SESSION['accountTMP'][0]; ?>">
-    <input id="UserId" type="hidden" value="<?php echo $_SESSION['accountTMP'][1]; ?>">
+    <input id="UserId" type="hidden" value="<?php echo $_SESSION['accountTMP'][0]; ?>">
 <?php
 } else {
 ?>
-    <input id="CustomerId" type="hidden" value="">
     <input id="UserId" type="hidden" value="">
 <?php
 }

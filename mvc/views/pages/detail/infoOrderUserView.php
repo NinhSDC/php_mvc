@@ -7,7 +7,7 @@ $current_page = $data['currentPage'];
     <div class="UserInfo_left l-3-8">
         <div class="UserInfo_left_Img">
             <?php
-            while ($row = sqlsrv_fetch_array($data['getInfoCustomer'])) {
+            while ($row = mysqli_fetch_array($data['getInfoCustomer'])) {
             ?>
                 <img src="<?php echo $row['Image'] ?>" alt="">
 
@@ -49,7 +49,7 @@ $current_page = $data['currentPage'];
                 </tr>
                 <?php
                 if ($data['checkOrder'] != 0) {
-                    while ($rowInfoOrderUser = sqlsrv_fetch_array($data['getOrderInfoUser'], SQLSRV_FETCH_ASSOC)) {
+                    while ($rowInfoOrderUser = mysqli_fetch_array($data['getOrderInfoUser'], MYSQLI_ASSOC)) {
                 ?>
                         <tr class="UserInfo_Order_right_tr">
                             <th><?php echo $rowInfoOrderUser['Id']; ?></th>

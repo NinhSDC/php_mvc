@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2024 at 01:37 AM
+-- Generation Time: Aug 04, 2024 at 06:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,6 +33,14 @@ CREATE TABLE `cartdetail` (
   `productID` int(11) DEFAULT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cartdetail`
+--
+
+INSERT INTO `cartdetail` (`Id`, `cartID`, `productID`, `quantity`) VALUES
+(7, 1, 23, 3),
+(8, 1, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -118,7 +126,10 @@ CREATE TABLE `orders` (
   `userID` int(11) DEFAULT NULL,
   `orderDate` datetime NOT NULL,
   `totalAmount` decimal(10,2) NOT NULL,
-  `status` varchar(255) NOT NULL
+  `status` varchar(255) NOT NULL,
+  `email` varchar(250) NOT NULL,
+  `addRess` varchar(250) NOT NULL,
+  `paymentMethod` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -548,13 +559,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cartdetail`
 --
 ALTER TABLE `cartdetail`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `categorys`

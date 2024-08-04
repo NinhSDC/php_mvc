@@ -1,24 +1,8 @@
 <div style="margin-top: 20px ;" class="container">
     <div class="container-left">
-        <form id="myForm" onsubmit="return check_FormSubmit_Pay() " name="Submit_Pay" action="/php_mvc/Cart/updatesCartAndPay" method="post">
+        <form id="myForm" onsubmit="return check_FormSubmit_Pay() " name="Submit_Pay" action="/ShopClock/Cart/updatesCartAndPay" method="post">
             <h1 class="lable">Thông Tin Giao Hàng</h1>
-            <?php
 
-            if (isset($_SESSION['accountTMP'])) {
-            ?>
-                <div class='infStore l-12'>
-                    <div class='infStore-Code'>
-                        <h4>Mã Cửa Hàng : <?php echo $_SESSION['accountTMP'][3]; ?>
-                        </h4>
-                    </div>
-                    <div class='infStore-CodeStaff'>
-                        <h4>Mã Nhân Viên : <?php echo $_SESSION['accountTMP'][5]; ?>
-                        </h4>
-                    </div>
-                </div>
-            <?php
-            }
-            ?>
             <div class="form-group">
                 <input type="text" class="input" name="NameOrder" placeholder="Họ Và Tên" required="true">
                 <div class="input1">
@@ -30,32 +14,10 @@
                         <span style="color : red ;" id="so"></span>
                     </div>
                 </div>
-
                 <input type="text" class="input" name="Address" placeholder="Địa Chỉ" required="true">
-
-                <?php
-
-                if (isset($_SESSION['accountTMP'])) {
-                ?>
-
-                    <div class="radio">
-                        <input checked="checked" name="PaymentMethod" type="radio" value="DIRECT" />Thanh Toán Tại Cửa Hàng
-                    </div>
-
-                <?php
-                } else {
-
-                ?>
-
-                    <div class="radio">
-                        <input checked="checked" name="PaymentMethod" type="radio" value="COD" />Thanh Toán Khi Nhận Hàng
-                    </div>
-
-                <?php
-
-                }
-
-                ?>
+                <div class="radio">
+                    <input checked="checked" name="PaymentMethod" type="radio" value="COD" />Thanh Toán Khi Nhận Hàng
+                </div>
                 <div class="radio">
                     <input name="PaymentMethod" type="radio" value="VNPAY" />Thanh Toán Qua VNPAY
                 </div>

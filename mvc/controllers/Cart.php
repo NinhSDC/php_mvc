@@ -96,7 +96,6 @@ class Cart extends Controller
             if (isset($_POST['productId'])) {
                 $ProductId = $_POST["productId"];
                 $UserId = $_POST["userId"];
-                $QuantityProductTMP = $_POST['quantityProduct'];
 
                 $CheckCartExist = $this->CartModel->CheckCartExist($UserId);
                 //nếu chưa tồn tại cart thì sẽ tạo cart
@@ -113,13 +112,13 @@ class Cart extends Controller
                     $this->CartModel->CreatCartDetail(
                         $result_CheckCartExist['Id'],
                         $ProductId,
-                        $QuantityProductTMP
+                        $quantityAddToCart
                     );
                 } else {
 
                     $result_GetProductInCart = mysqli_fetch_array($GetProductInCart, MYSQLI_ASSOC);
 
-                    $QuantityProduct = $QuantityProductTMP + $result_GetProductInCart['Quantity'];
+                    $QuantityProduct = $quantityAddToCart + $result_GetProductInCart['quantity'];
 
                     $this->CartModel->UpdateCartDetail(
                         $result_CheckCartExist['Id'],
@@ -182,7 +181,6 @@ class Cart extends Controller
                         } elseif (isset($carts[$ProductId])) {
                             $carts[$ProductId] = $Quantity;
                         }
-
                     }
 
                     $_SESSION["Cart"] = json_encode($carts);
@@ -190,7 +188,6 @@ class Cart extends Controller
 
                 setcookie('SuccessTMP', "updatesCartSuccess", time() + 2);
                 header('location: /php_mvc/Cart');
-
             }
 
             if (isset($_POST['order_click'])) {
@@ -207,15 +204,18 @@ class Cart extends Controller
 
                 if (isset($carts)) {
                     foreach ($carts as $key => $value) {
-                        $getProductTMP = $this->ProductModel->GetInfProduct($key);
+                        $getProductTMP = $this->ProductsModel->GetInfProduct($key);
 
-                        $result_getProductTMP = sqlsrv_fetch_array($getProductTMP, SQLSRV_FETCH_ASSOC);
+                        $result_getProductTMP = mysqli_fetch_array($getProductTMP, MYSQLI_ASSOC);
 
-                        $PromotionPrice = $result_getProductTMP['PromotionPrice'] != null ? $result_getProductTMP['PromotionPrice'] : $result_getProductTMP['Price'];
+                        $PromotionPrice = ($result_getProductTMP['percent'] != null && $result_getProductTMP['percent'] > 0) ?
+                            $result_getProductTMP['price'] - ($result_getProductTMP['price'] * $result_getProductTMP['percent'] / 100) :
+                            $result_getProductTMP['price'];
+
 
 
                         $listcartModel[$key] = array(
-                            'nameProduct' => $result_getProductTMP['Name'],
+                            'nameProduct' => $result_getProductTMP['productName'],
                             'Path' => $result_getProductTMP['Path'],
                             'quantity' => $value,
                             'price' => $PromotionPrice,
@@ -223,14 +223,13 @@ class Cart extends Controller
                     }
                 }
 
-                $this->Views(
+                $this->View(
                     "CartView",
                     [
                         "page" => "InfoOrderStaffView",
                         "GetCartSession" => $listcartModel
                     ]
                 );
-
             }
 
             if (isset($_POST['Submit_Pay'])) {
@@ -314,7 +313,6 @@ class Cart extends Controller
 
                             header('location: /php_mvc/Cart/ShowBill');
                         }
-
                     }
                 } elseif (isset($_POST['PaymentMethod']) && $_POST['PaymentMethod'] == 'VNPAY') {
 
@@ -400,7 +398,6 @@ class Cart extends Controller
                                     $this->DeleteUpdateTransactionIdSESSION();
 
                                     header('location: /php_mvc/vnpay_php/vnpay_pay.php');
-
                                 } else {
                                     echo 'tu tu sua';
                                     setcookie('errorCompleted', "errorCompleted", time() + 2);
@@ -479,7 +476,6 @@ class Cart extends Controller
                                     }
 
                                     $updateQuantityOrderDetail = $this->CartModel->updateQuantityOrderDetail($ProductId, $WareHouseId, $QuantityTMP);
-
                                 } else {
                                     $Completed = true;
                                 }
@@ -497,7 +493,6 @@ class Cart extends Controller
                                     $this->DeleteCartSESSION();
 
                                     header('location: /php_mvc/vnpay_php/vnpay_pay.php');
-
                                 } else {
                                     echo 'tu tu sua';
                                     setcookie('errorCompleted', "errorCompleted", time() + 2);
@@ -602,7 +597,6 @@ class Cart extends Controller
                                 header('location: /php_mvc/Cart/ShowBill');
                             }
                         }
-
                     }
                 }
             }
@@ -614,14 +608,9 @@ class Cart extends Controller
                     header('location: /php_mvc/Cart');
                 }
 
-                $CartDetailIdTMP = $_POST["CartDetailId"];
-                $CartIdTMP = $_POST["CartId"];
-                $ProductIdTMP = $_POST["ProductId"];
-                $QuantityTMP = $_POST['Quantity'];
-                //$LastUpdated = 'getdate()';
-
                 for ($i = 0; $i < count($_POST['ProductId']); $i++) {
 
+                    $ProductIdTMP = $_POST["ProductId"][$i];
                     $CartDetailId = $_POST['CartDetailId'][$i];
                     $CartId = $_POST["CartId"][$i];
                     $ProductId = $_POST["ProductId"][$i];
@@ -632,7 +621,6 @@ class Cart extends Controller
                     } else {
                         $this->CartModel->UpdatesToCart($CartDetailId, $CartId, $ProductId, $Quantity);
                     }
-
                 }
 
                 if ($i == count($_POST['ProductId'])) {
@@ -640,7 +628,6 @@ class Cart extends Controller
                     header('location: /php_mvc/Cart');
                     die();
                 }
-
             }
 
             if (isset($_POST['order_click'])) {
@@ -654,8 +641,8 @@ class Cart extends Controller
 
                 $CheckCartExist = $this->CartModel->CheckCartExist($CustomerId);
 
-                $result_CheckCartExist = sqlsrv_fetch_array($CheckCartExist, SQLSRV_FETCH_ASSOC);
-                $this->Views(
+                $result_CheckCartExist = mysqli_fetch_array($CheckCartExist, MYSQLI_ASSOC);
+                $this->view(
                     "CartView",
                     [
                         "page" => "InfoOrderView",
@@ -666,44 +653,24 @@ class Cart extends Controller
 
             if (isset($_POST['Submit_Pay'])) {
 
-                $CustomerId = $_SESSION['accountTMP'][0];
-                $CustomerName = $_SESSION['accountTMP'][2];
+                $UserId = $_SESSION['accountTMP'][0];
                 $Email = $_SESSION['accountTMP'][4];
-
                 $NameOrder = $_POST['NameOrder'];
                 $PhoneNumber = $_POST['PhoneNumber'];
                 $Address = $_POST['Address'];
-                $Note = 'null';
                 $PaymentMethod = $_POST['PaymentMethod'];
-                $TmpTotal = $_POST['total_all_addVoucher'];
                 $Total = $_POST['total_all_addVoucher'];
-                $StaffId = 'null';
-                $StoreId = 'null';
-                $ShipStatus = 0;
-                $PaymentStatus = 0;
-                $CreatedTime = 'getdate()';
-                $LastUpdated = 'getdate()';
+                $Status = 0;
 
-                if (isset($_POST['PaymentMethod']) && $_POST['PaymentMethod'] == 'COD') {
-
-                    $ProductWarehouseId = 'null';
+                if (isset($PaymentMethod) && $PaymentMethod == 'COD') {
 
                     $CreateOrder = $this->CartModel->CreateOrder(
-                        $CustomerId,
-                        $CustomerName,
-                        $PhoneNumber,
+                        $UserId,
                         $Email,
+                        $PhoneNumber,
                         $Address,
-                        $Note,
                         $PaymentMethod,
-                        $TmpTotal,
-                        $Total,
-                        $StaffId,
-                        $StoreId,
-                        $ShipStatus,
-                        $PaymentStatus,
-                        $CreatedTime,
-                        $LastUpdated
+                        $Total
                     );
 
                     if ($CreateOrder != null) {
@@ -716,16 +683,13 @@ class Cart extends Controller
                             $Quantity = $_POST['Quantity'][$i];
                             $ProducPrice = $_POST['PromotionPrice'][$i];
                             if ($ProducPrice != "" && $ProductId != "" && $Quantity != "") {
-                                $CreateOrderDetail = $this->CartModel->CreateOrderDetail(
+                                $this->CartModel->CreateOrder(
                                     $OrderId,
                                     $ProductId,
                                     $Path,
                                     $ProductName,
                                     $Quantity,
-                                    $ProducPrice,
-                                    $CreatedTime,
-                                    $LastUpdated,
-                                    $ProductWarehouseId
+                                    $ProducPrice
                                 );
                             } else {
                                 $Completed = true;
@@ -739,13 +703,13 @@ class Cart extends Controller
 
                             $GetIdCart = $this->CartModel->GetIdCart($CustomerId);
 
-                            $result_GetIdCart = sqlsrv_fetch_array($GetIdCart, SQLSRV_FETCH_ASSOC);
+                            $result_GetIdCart = mysqli_fetch_array($GetIdCart, MYSQLI_ASSOC);
 
                             $CartId = $result_GetIdCart['Id'];
 
                             $checkStatusPayBill = $this->CartModel->checkStatusPayBill($OrderId);
 
-                            $result_checkStatusPayBill = sqlsrv_fetch_array($checkStatusPayBill);
+                            $result_checkStatusPayBill = mysqli_fetch_array($checkStatusPayBill);
 
                             $PaymentStatus = $result_checkStatusPayBill['StatusPay'];
 
@@ -758,10 +722,7 @@ class Cart extends Controller
                                 $this->DeleteUpdateTransactionIdSESSION();
 
                                 header('location: /php_mvc/Cart/ShowBill');
-
                             }
-
-
                         } else {
                             echo 'tu tu sua';
                             setcookie('errorCompleted', "errorCompleted", time() + 2);
@@ -772,8 +733,7 @@ class Cart extends Controller
                         echo ' loivddddl';
                         exit;
                     }
-
-                } elseif (isset($_POST['PaymentMethod']) && $_POST['PaymentMethod'] == 'VNPAY') {
+                } elseif (isset($PaymentMethod) && $PaymentMethod == 'VNPAY') {
 
                     $PaymentMethod = $_POST['PaymentMethod'];
 
@@ -851,7 +811,6 @@ class Cart extends Controller
                                 $_SESSION['ShowVNPAY'] = [$OrderId, $NameOrder, $PhoneNumber, $Address, $PaymentMethod, $PaymentStatus];
 
                                 header('location: /php_mvc/vnpay_php/vnpay_pay.php');
-
                             } else {
                                 setcookie('errorCompleted', "errorCompleted", time() + 2);
                                 header('location: /php_mvc/Cart/ShowBill');
@@ -860,7 +819,8 @@ class Cart extends Controller
                         }
                     }
                 }
-                $this->Views(
+
+                $this->View(
                     "CartView",
                     [
                         "page" => "InfoOrderView",
@@ -868,9 +828,7 @@ class Cart extends Controller
                     ]
                 );
             }
-
         }
-
     }
 
     function delProductToCart()
@@ -881,7 +839,7 @@ class Cart extends Controller
             $length = count($_SESSION["accountTMP"]);
         }
 
-        if ( $length == 0) {
+        if ($length == 0) {
 
             $ProductId = $_POST['productId'];
 
