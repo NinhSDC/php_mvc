@@ -8,7 +8,7 @@
                 <input type="text" class="input" name="NameOrder" placeholder="Họ Và Tên" required="true">
                 <div class="input1">
                     <div class="input1-left">
-                        <input type="email" class="input" name="email_User" placeholder="Email" required="true">
+                        <input type="email" class="input" name="emailCustomer" placeholder="Email" required="true">
                     </div>
                     <div class="input1-right">
                         <input type="tel" class="input" name="PhoneNumber" placeholder="Số Điện Thoại" required="true">

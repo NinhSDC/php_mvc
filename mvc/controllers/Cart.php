@@ -654,7 +654,7 @@ class Cart extends Controller
             if (isset($_POST['Submit_Pay'])) {
 
                 $UserId = $_SESSION['accountTMP'][0];
-                $Email = $_SESSION['accountTMP'][4];
+                $Email = $_POST['emailCustomer'];
                 $NameOrder = $_POST['NameOrder'];
                 $PhoneNumber = $_POST['PhoneNumber'];
                 $Address = $_POST['Address'];
@@ -673,49 +673,44 @@ class Cart extends Controller
                         $Total
                     );
 
-                    if ($CreateOrder != null) {
+                    if ($CreateOrder != false) {
 
+                        $Completed = true;
                         $OrderId = $CreateOrder;
+
                         for ($i = 0; $i < count($_POST['ProductId']); $i++) {
                             $ProductId = $_POST['ProductId'][$i];
-                            $Path = $_POST['Path'][$i];
-                            $ProductName = $_POST['ProductName'][$i];
                             $Quantity = $_POST['Quantity'][$i];
                             $ProducPrice = $_POST['PromotionPrice'][$i];
+
                             if ($ProducPrice != "" && $ProductId != "" && $Quantity != "") {
-                                $this->CartModel->CreateOrder(
+                                $result = $this->CartModel->CreateOrderDetails(
                                     $OrderId,
                                     $ProductId,
-                                    $Path,
-                                    $ProductName,
                                     $Quantity,
                                     $ProducPrice
                                 );
-                            } else {
-                                $Completed = true;
+
+                                if (!$result) {
+                                    // Nếu CreateOrderDetails trả về false, dừng vòng lặp và đặt $Completed thành false
+                                    $Completed = false;
+                                    break;
+                                }
                             }
                         }
-                        if ($Completed = true) {
+
+
+                        if ($Completed) {
                             $MoneyReceived = 0;
                             $MoneyRefund = 0;
                             $StatusPay = 0;
-                            $CreateBill = $this->CartModel->CreateBill($OrderId, $Total, $MoneyReceived, $MoneyRefund, $CreatedTime, $StatusPay);
 
-                            $GetIdCart = $this->CartModel->GetIdCart($CustomerId);
+                            $getCartId = $this->CartModel->CheckCartExist($UserId);
+                            $resultGetCartId = mysqli_fetch_array($getCartId, MYSQLI_ASSOC);
 
-                            $result_GetIdCart = mysqli_fetch_array($GetIdCart, MYSQLI_ASSOC);
+                            $DeleteCartDetail = $this->CartModel->DeleteCartDetail($resultGetCartId['Id']);
 
-                            $CartId = $result_GetIdCart['Id'];
-
-                            $checkStatusPayBill = $this->CartModel->checkStatusPayBill($OrderId);
-
-                            $result_checkStatusPayBill = mysqli_fetch_array($checkStatusPayBill);
-
-                            $PaymentStatus = $result_checkStatusPayBill['StatusPay'];
-
-                            $DeleteCartDetail = $this->CartModel->DeleteCartDetail($CartId);
-
-                            $_SESSION['ShowBill'] = [$OrderId, $NameOrder, $PhoneNumber, $Address, $PaymentMethod, $PaymentStatus];
+                            $_SESSION['ShowBill'] = [$OrderId, $NameOrder, $PhoneNumber, $Address, $PaymentMethod, 1];
 
                             if ($DeleteCartDetail !== false) {
 
@@ -724,14 +719,10 @@ class Cart extends Controller
                                 header('location: /php_mvc/Cart/ShowBill');
                             }
                         } else {
-                            echo 'tu tu sua';
                             setcookie('errorCompleted', "errorCompleted", time() + 2);
                             header('location: /php_mvc/Cart/ShowBill');
                             die();
                         }
-                    } else {
-                        echo ' loivddddl';
-                        exit;
                     }
                 } elseif (isset($PaymentMethod) && $PaymentMethod == 'VNPAY') {
 
@@ -819,16 +810,48 @@ class Cart extends Controller
                         }
                     }
                 }
-
-                $this->View(
-                    "CartView",
-                    [
-                        "page" => "InfoOrderView",
-
-                    ]
-                );
             }
         }
+    }
+
+    function ShowBill()
+    {
+        if (isset($_SESSION['UpdateTransactionId'])) {
+            $TransactionId = $_SESSION['UpdateTransactionId'][0];
+            $OrderId = $_SESSION['InfSubmitPay'][1];
+            $TransactionStatus = $_SESSION['UpdateTransactionId'][2];
+            $updateVNPAY = $this->CartModel->updateVNPAY($OrderId, $TransactionId, $TransactionStatus);
+
+            if ($updateVNPAY) {
+
+                $checkTransactionStatusVNPAY = $this->CartModel->checkTransactionStatusVNPAY($OrderId);
+
+                $result_checkTransactionStatusVNPAY = mysqli_fetch_array($checkTransactionStatusVNPAY);
+
+                $PaymentStatus = $result_checkTransactionStatusVNPAY['TransactionStatus'];
+
+                if ($PaymentStatus === 1) {
+                    $updatePaymentStatusOrder = $this->CartModel->updatePaymentStatusOrder($PaymentStatus, $OrderId);
+                    if ($updatePaymentStatusOrder) {
+                        $_SESSION['ShowVNPAY'][5] = $PaymentStatus;
+                    }
+                } elseif ($PaymentStatus === 0) {
+                    $updatePaymentStatusOrder = $this->CartModel->updatePaymentStatusOrder($PaymentStatus, $OrderId);
+                    if ($updatePaymentStatusOrder) {
+                        $_SESSION['ShowVNPAY'][5] = $PaymentStatus;
+                    }
+                }
+            } else {
+                header('location: /php_mvc/Cart');
+            }
+        }
+
+        $this->View(
+            "CartView",
+            [
+                "page" => "ShowBillView",
+            ]
+        );
     }
 
     function delProductToCart()
@@ -871,6 +894,8 @@ class Cart extends Controller
             }
         }
     }
+
+
 
     function DeleteUpdateTransactionIdSESSION()
     {

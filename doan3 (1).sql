@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2024 at 06:19 PM
+-- Generation Time: Aug 06, 2024 at 01:29 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,14 +33,6 @@ CREATE TABLE `cartdetail` (
   `productID` int(11) DEFAULT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `cartdetail`
---
-
-INSERT INTO `cartdetail` (`Id`, `cartID`, `productID`, `quantity`) VALUES
-(7, 1, 23, 3),
-(8, 1, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -115,6 +107,30 @@ CREATE TABLE `orderdetail` (
   `price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orderdetail`
+--
+
+INSERT INTO `orderdetail` (`Id`, `orderID`, `productID`, `quantity`, `price`) VALUES
+(1, 1, 23, 3, 7225.00),
+(2, 1, 22, 1, 7000.00),
+(3, 2, 23, 3, 7225.00),
+(4, 2, 22, 1, 7000.00),
+(5, 3, 23, 3, 7225.00),
+(6, 3, 22, 1, 7000.00),
+(7, 4, 23, 3, 7225.00),
+(8, 4, 22, 1, 7000.00),
+(9, 5, 23, 3, 7225.00),
+(10, 5, 22, 1, 7000.00),
+(11, 6, 23, 3, 7225.00),
+(12, 6, 22, 1, 7000.00),
+(13, 7, 23, 2, 7225.00),
+(14, 7, 22, 1, 7000.00),
+(15, 8, 23, 2, 7225.00),
+(16, 8, 22, 1, 7000.00),
+(17, 9, 23, 2, 7225.00),
+(18, 9, 22, 1, 7000.00);
+
 -- --------------------------------------------------------
 
 --
@@ -129,8 +145,25 @@ CREATE TABLE `orders` (
   `status` varchar(255) NOT NULL,
   `email` varchar(250) NOT NULL,
   `addRess` varchar(250) NOT NULL,
-  `paymentMethod` varchar(100) NOT NULL
+  `paymentMethod` varchar(100) NOT NULL,
+  `repayment` int(11) DEFAULT NULL,
+  `phoneNumber` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`Id`, `userID`, `orderDate`, `totalAmount`, `status`, `email`, `addRess`, `paymentMethod`, `repayment`, `phoneNumber`) VALUES
+(1, 9, '2024-08-05 00:00:00', 28675.00, '1', 'ninh@gmail.com', 'ádasdad', 'COD', NULL, 1234567898),
+(2, 9, '2024-08-05 00:00:00', 28675.00, '1', 'ninh@gmail.com', 'ádasdad', 'COD', NULL, 1234567898),
+(3, 9, '2024-08-05 00:00:00', 28675.00, '1', 'ninh@gmail.com', 'ádasdad', 'COD', NULL, 1234567898),
+(4, 9, '2024-08-05 00:00:00', 28675.00, '1', 'ninh@gmail.com', 'ádasdad', 'COD', NULL, 1234567898),
+(5, 9, '2024-08-05 00:00:00', 28675.00, '1', 'ninh@gmail.com', 'ádasdad', 'COD', NULL, 1234567898),
+(6, 9, '2024-08-06 00:00:00', 28675.00, '1', 'ninh@gmail.com', 'ádasdad', 'COD', NULL, 1234567898),
+(7, 9, '2024-08-06 00:00:00', 21450.00, '1', 'ninh@gmail.com', 'ádasdad', 'COD', NULL, 1234567898),
+(8, 9, '2024-08-06 00:00:00', 21450.00, '1', 'ninh@gmail.com', 'ádasdad', 'COD', NULL, 1234567898),
+(9, 9, '2024-08-06 00:00:00', 21450.00, '1', 'ninh@gmail.com', 'dddd', 'COD', NULL, 1234567898);
 
 -- --------------------------------------------------------
 
@@ -583,13 +616,13 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT for table `orderdetail`
 --
 ALTER TABLE `orderdetail`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `productdetail`

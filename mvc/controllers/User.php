@@ -50,6 +50,45 @@ class User extends Controller
         }
     }
 
+    function InfoOrder($current_page = 1)
+    {
+
+        $IdUser = trim($_SESSION['accountTMP'][0]);
+
+        $checkOrder = $this->UserModel->checkOrder($IdUser);
+
+        $result_checkOrder = mysqli_fetch_array($checkOrder);
+
+        $checkOrderExist = $result_checkOrder['checkOrder'];
+
+        $limit = 10;
+
+        $total_records = $this->UserModel->getCountOrders($IdUser);
+
+        $total_page = ceil($total_records / $limit);
+
+        if ($current_page > $total_page) {
+            $current_page = $total_page;
+        } else if ($current_page < 1) {
+            $current_page = 1;
+        }
+
+        // Tìm Start
+        $start = ($current_page - 1) * $limit;
+
+        $this->View(
+            "UserView",
+            [
+                "page" => "infoOrderUserView",
+                "checkOrder" => $checkOrderExist,
+                "getInfoCustomer" => $this->UserModel->getInfoCustomer($IdUser),
+                "getOrderInfoUser" => $this->UserModel->getOrderInfoUser($IdUser, $start, $limit),
+                "currentPage" => $current_page,
+                "totalPage" => $total_page
+            ]
+        );
+    }
+
     function DeleteUpdateTransactionIdSESSION()
     {
         unset($_SESSION['UpdateTransactionId']);

@@ -81,8 +81,41 @@ class CartModel extends DB
 
     function CreateOrder($UserId, $Email, $PhoneNumber, $Address, $PaymentMethod, $Total)
     {
-        $sql = "INSERT INTO `orders`( `userID`, `orderDate`, `totalAmount`, `status`, `email`, `addRess`, `paymentMethod`) 
-                            VALUES ('$UserId', CURDATE() ,'$Total', 1 ,'$Email','$Address','$PaymentMethod')";
+        $sql = "INSERT INTO `orders` (`userID`, `orderDate`, `PhoneNumber`, `totalAmount`, `status`, `email`, `address`, `paymentMethod`) 
+                           VALUES ('$UserId', CURDATE(), '$PhoneNumber', '$Total', 1, '$Email', '$Address', '$PaymentMethod')";
+
+        if (mysqli_query($this->conn, $sql)) {
+            // Lấy ID của đơn hàng vừa được chèn
+            $orderId = mysqli_insert_id($this->conn);
+            return $orderId;
+        } else {
+            return false;
+        }
+    }
+
+    function CreateOrderDetails($OrderId, $ProductId, $Quantity, $ProducPrice)
+    {
+        $sql = "INSERT INTO `orderdetail`(`orderID`, `productID`, `quantity`, `price`)
+                               VALUES ('$OrderId','$ProductId','$Quantity','$ProducPrice')";
         return mysqli_query($this->conn, $sql);
+    }
+
+    function DeleteCartDetail($CartId)
+    {
+        $sql = "DELETE 
+                FROM cartDetail
+                WHERE cartID = '$CartId'";
+        return mysqli_query($this->conn, $sql);
+    }
+
+    function getCountOrders($IdUser)
+    {
+        $sql = "SELECT COUNT(orders.[Id])
+                  FROM orders 
+                  WHERE `userID` = '$IdUser' ";
+
+        $result = mysqli_query($this->conn, $sql);
+
+        return mysqli_fetch_array($result)[0];
     }
 }
