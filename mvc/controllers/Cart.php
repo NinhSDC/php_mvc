@@ -173,9 +173,7 @@ class Cart extends Controller
 
                         $ProductId = $_POST["ProductId"][$i];
                         $Quantity = $_POST["Quantity"][$i];
-                        // echo $Quantity;
-                        // echo $ProductId;
-                        // exit;
+
                         if ($Quantity == 0) {
                             unset($carts[$ProductId]);
                         } elseif (isset($carts[$ProductId])) {
@@ -199,7 +197,6 @@ class Cart extends Controller
                     header('location: /php_mvc/Cart');
                 }
 
-                $ProductIds = array();
                 $listcartModel = array();
 
                 if (isset($carts)) {
@@ -211,8 +208,6 @@ class Cart extends Controller
                         $PromotionPrice = ($result_getProductTMP['percent'] != null && $result_getProductTMP['percent'] > 0) ?
                             $result_getProductTMP['price'] - ($result_getProductTMP['price'] * $result_getProductTMP['percent'] / 100) :
                             $result_getProductTMP['price'];
-
-
 
                         $listcartModel[$key] = array(
                             'nameProduct' => $result_getProductTMP['productName'],
@@ -234,84 +229,72 @@ class Cart extends Controller
 
             if (isset($_POST['Submit_Pay'])) {
 
-                $CustomerId = 'null';
-                $CustomerName = $_POST['NameOrder'];
-                $PhoneNumber = $_POST['PhoneNumber'];
+                $UserId = 'null';
                 $Email = $_POST['Email'];
+                $NameOrder = $_POST['NameOrder'];
+                $PhoneNumber = $_POST['PhoneNumber'];
                 $Address = $_POST['Address'];
-                $Note = 'null';
                 $PaymentMethod = $_POST['PaymentMethod'];
-                $TmpTotal = $_POST['total_all_addVoucher'];
                 $Total = $_POST['total_all_addVoucher'];
-                $CreatedTime = 'getdate()';
-                $LastUpdated = 'getdate()';
+                $Status = 0;
+
 
                 if (isset($_POST['PaymentMethod']) && $_POST['PaymentMethod'] == 'COD') {
 
-                    $ProductWarehouseId = 'null';
-
                     $CreateOrder = $this->CartModel->CreateOrder(
-                        $CustomerId,
-                        $CustomerName,
-                        $PhoneNumber,
+                        $UserId,
                         $Email,
+                        $PhoneNumber,
                         $Address,
-                        $Note,
                         $PaymentMethod,
-                        $TmpTotal,
-                        $Total,
-                        $StaffId,
-                        $StoreId,
-                        $ShipStatus,
-                        $PaymentStatus,
-                        $CreatedTime,
-                        $LastUpdated
+                        $Total
                     );
-                    if ($CreateOrder != null) {
 
+                    if ($CreateOrder != false) {
+
+                        $Completed = true;
                         $OrderId = $CreateOrder;
 
                         for ($i = 0; $i < count($_POST['ProductId']); $i++) {
                             $ProductId = $_POST['ProductId'][$i];
-                            $Path = $_POST['Path'][$i];
-                            $ProductName = $_POST['ProductName'][$i];
                             $Quantity = $_POST['Quantity'][$i];
-                            $ProducPrice = $_POST['ProducPrice'][$i];
+                            $ProducPrice = $_POST['PromotionPrice'][$i];
+
                             if ($ProducPrice != "" && $ProductId != "" && $Quantity != "") {
-                                $CreateOrderDetail = $this->CartModel->CreateOrderDetail(
+                                $result = $this->CartModel->CreateOrderDetails(
                                     $OrderId,
                                     $ProductId,
-                                    $Path,
-                                    $ProductName,
                                     $Quantity,
-                                    $ProducPrice,
-                                    $CreatedTime,
-                                    $LastUpdated,
-                                    $ProductWarehouseId
+                                    $ProducPrice
                                 );
-                            }
 
-                            $Completed = true;
+                                if (!$result) {
+                                    // Nếu CreateOrderDetails trả về false, dừng vòng lặp và đặt $Completed thành false
+                                    $Completed = false;
+                                    break;
+                                }
+                            }
                         }
 
-                        if ($Completed === true) {
+                        if ($Completed) {
 
-                            $StatusPay = 0;
-                            $CreateBill = $this->CartModel->CreateBill($OrderId, $Total, $MoneyReceived, $MoneyRefund, $CreatedTime, $StatusPay);
+                            $getCartId = $this->CartModel->CheckCartExist($UserId);
+                            $resultGetCartId = mysqli_fetch_array($getCartId, MYSQLI_ASSOC);
 
-                            $checkStatusPayBill = $this->CartModel->checkStatusPayBill($OrderId);
+                            $DeleteCartDetail = $this->CartModel->DeleteCartDetail($resultGetCartId['Id']);
 
-                            $result_checkStatusPayBill = sqlsrv_fetch_array($checkStatusPayBill);
+                            $_SESSION['ShowBill'] = [$OrderId, $NameOrder, $PhoneNumber, $Address, $PaymentMethod, 1];
 
-                            $PaymentStatus = $result_checkStatusPayBill['StatusPay'];
+                            if ($DeleteCartDetail !== false) {
 
-                            $_SESSION['ShowBill'] = [$OrderId, $CustomerName, $PhoneNumber, $Address, $PaymentMethod, $PaymentStatus];
+                                $this->DeleteUpdateTransactionIdSESSION();
 
-                            $this->DeleteCartSESSION();
-
-                            $this->DeleteUpdateTransactionIdSESSION();
-
+                                header('location: /php_mvc/Cart/ShowBill');
+                            }
+                        } else {
+                            setcookie('errorCompleted', "errorCompleted", time() + 2);
                             header('location: /php_mvc/Cart/ShowBill');
+                            die();
                         }
                     }
                 } elseif (isset($_POST['PaymentMethod']) && $_POST['PaymentMethod'] == 'VNPAY') {
@@ -502,102 +485,6 @@ class Cart extends Controller
                             }
                         }
                     }
-                } elseif (isset($_POST['PaymentMethod']) && $_POST['PaymentMethod'] == 'DIRECT') {
-
-                    $WareHouseId = $_SESSION['accountTMP'][3];
-                    $CreateOrder = $this->CartModel->CreateOrder(
-                        $CustomerId,
-                        $CustomerName,
-                        $PhoneNumber,
-                        $Email,
-                        $Address,
-                        $Note,
-                        $PaymentMethod,
-                        $TmpTotal,
-                        $Total,
-                        $StaffId,
-                        $StoreId,
-                        $ShipStatus,
-                        $PaymentStatus,
-                        $CreatedTime,
-                        $LastUpdated
-                    );
-
-                    if ($CreateOrder != null) {
-
-                        $OrderId = $CreateOrder;
-
-                        for ($i = 0; $i < count($_POST['ProductId']); $i++) {
-                            $ProductId = $_POST['ProductId'][$i];
-                            $Path = $_POST['Path'][$i];
-                            $ProductName = $_POST['ProductName'][$i];
-                            $Quantity = $_POST['Quantity'][$i];
-                            $ProducPrice = $_POST['ProducPrice'][$i];
-
-                            if ($ProducPrice != "" && $ProductId != "" && $Quantity != "") {
-
-                                $getProductWareHousesId = $this->CartModel->getProductWareHousesId($ProductId, $WareHouseId);
-
-                                $result_getProductWareHousesId = sqlsrv_fetch_array($getProductWareHousesId, SQLSRV_FETCH_ASSOC);
-
-                                $ProductWarehouseId = $result_getProductWareHousesId['Id'];
-
-                                $CreateOrderDetail = $this->CartModel->CreateOrderDetail(
-                                    $OrderId,
-                                    $ProductId,
-                                    $Path,
-                                    $ProductName,
-                                    $Quantity,
-                                    $ProducPrice,
-                                    $CreatedTime,
-                                    $LastUpdated,
-                                    $ProductWarehouseId,
-                                );
-
-                                $getQuantityWareHouses = $this->CartModel->getQuantityWareHouses($ProductId, $WareHouseId);
-
-                                $result_getQuantityWareHouses = sqlsrv_fetch_array($getQuantityWareHouses, SQLSRV_FETCH_ASSOC);
-
-                                if ($result_getQuantityWareHouses != false) {
-                                    $QuantityTMP1 = $result_getQuantityWareHouses['Quantity'];
-                                    $QuantityTMP = $QuantityTMP1 - $Quantity;
-                                } else {
-                                    echo 'loivl';
-                                    exit;
-                                }
-
-                                $updateQuantityOrderDetail = $this->CartModel->updateQuantityOrderDetail($ProductId, $WareHouseId, $QuantityTMP);
-                            }
-                            $Completed = true;
-                        }
-
-                        if ($Completed === true) {
-
-                            $MoneyReceived = trim($_POST['MoneyReceived']);
-                            $MoneyRefund = trim($_POST['MoneyRefund']);
-
-                            $StatusPay = 1;
-
-                            $CreateBillDirect = $this->CartModel->CreateBill($OrderId, $Total, $MoneyReceived, $MoneyRefund, $CreatedTime, $StatusPay);
-
-                            $checkStatusPayBill = $this->CartModel->checkStatusPayBill($OrderId);
-
-                            $result_checkStatusPayBill = sqlsrv_fetch_array($checkStatusPayBill);
-
-                            $PaymentStatus = $result_checkStatusPayBill['StatusPay'];
-
-                            $_SESSION['ShowBill'] = [$OrderId, $CustomerName, $PhoneNumber, $Address, $PaymentMethod, $PaymentStatus];
-
-                            $this->DeleteCartSESSION();
-
-                            if ($CreateBillDirect !== false) {
-
-                                $this->DeleteUpdateTransactionIdSESSION();
-
-                                header('location: /php_mvc/Cart/ShowBill');
-                            }
-                        }
-                    }
                 }
             }
         } else {
@@ -699,11 +586,7 @@ class Cart extends Controller
                             }
                         }
 
-
                         if ($Completed) {
-                            $MoneyReceived = 0;
-                            $MoneyRefund = 0;
-                            $StatusPay = 0;
 
                             $getCartId = $this->CartModel->CheckCartExist($UserId);
                             $resultGetCartId = mysqli_fetch_array($getCartId, MYSQLI_ASSOC);

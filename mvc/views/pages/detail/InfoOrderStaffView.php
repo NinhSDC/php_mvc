@@ -1,6 +1,6 @@
 <div style="margin-top: 20px ;" class="container">
     <div class="container-left">
-        <form id="myForm" onsubmit="return check_FormSubmit_Pay() " name="Submit_Pay" action="/ShopClock/Cart/updatesCartAndPay" method="post">
+        <form id="myForm" onsubmit="return check_FormSubmit_Pay() " name="Submit_Pay" action="/php_mvc/Cart/updatesCartAndPay" method="post">
             <h1 class="lable">Thông Tin Giao Hàng</h1>
 
             <div class="form-group">

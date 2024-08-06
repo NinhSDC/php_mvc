@@ -81,9 +81,15 @@ class CartModel extends DB
 
     function CreateOrder($UserId, $Email, $PhoneNumber, $Address, $PaymentMethod, $Total)
     {
-        $sql = "INSERT INTO `orders` (`userID`, `orderDate`, `PhoneNumber`, `totalAmount`, `status`, `email`, `address`, `paymentMethod`) 
-                           VALUES ('$UserId', CURDATE(), '$PhoneNumber', '$Total', 1, '$Email', '$Address', '$PaymentMethod')";
+        if ($UserId == 'null') {
+            $handleUserId = 'NULL';
+        } else {
+            $handleUserId = "'$UserId'";
+        }
 
+        $sql = "INSERT INTO `orders` (`userID`, `orderDate`, `PhoneNumber`, `totalAmount`, `status`, `email`, `address`, `paymentMethod`) 
+                           VALUES ($handleUserId, CURDATE(), '$PhoneNumber', '$Total', 1, '$Email', '$Address', '$PaymentMethod')";
+        echo $sql;
         if (mysqli_query($this->conn, $sql)) {
             // Lấy ID của đơn hàng vừa được chèn
             $orderId = mysqli_insert_id($this->conn);
