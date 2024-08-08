@@ -278,19 +278,13 @@ class Cart extends Controller
 
                         if ($Completed) {
 
-                            $getCartId = $this->CartModel->CheckCartExist($UserId);
-                            $resultGetCartId = mysqli_fetch_array($getCartId, MYSQLI_ASSOC);
-
-                            $DeleteCartDetail = $this->CartModel->DeleteCartDetail($resultGetCartId['Id']);
-
                             $_SESSION['ShowBill'] = [$OrderId, $NameOrder, $PhoneNumber, $Address, $PaymentMethod, 1];
 
-                            if ($DeleteCartDetail !== false) {
+                            $this->DeleteUpdateTransactionIdSESSION();
 
-                                $this->DeleteUpdateTransactionIdSESSION();
+                            $this->DeleteCartSESSION();
 
-                                header('location: /php_mvc/Cart/ShowBill');
-                            }
+                            header('location: /php_mvc/Cart/ShowBill');
                         } else {
                             setcookie('errorCompleted', "errorCompleted", time() + 2);
                             header('location: /php_mvc/Cart/ShowBill');

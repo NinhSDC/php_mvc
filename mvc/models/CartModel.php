@@ -51,8 +51,7 @@ class CartModel extends DB
     {
         $sql = "UPDATE cartdetail
             SET quantity = $Quantity
-            WHERE Id = '$CartDetailId' AND cartID = '$CartId' AND productID = '$ProductId';
-";
+            WHERE Id = '$CartDetailId' AND cartID = '$CartId' AND productID = '$ProductId'";
         return mysqli_query($this->conn, $sql);
     }
 

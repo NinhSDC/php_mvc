@@ -49,7 +49,7 @@
                             <input type="hidden" name='Path[]' value="<?php echo $value['Path']; ?>">
                             <input type="hidden" name='ProductName[]' value="<?php echo $value['nameProduct']; ?>">
                             <input type="hidden" name='Quantity[]' value="<?php echo $value['quantity'] ?>">
-                            <input type="hidden" name='ProducPrice[]' value="<?php echo $value['price'] ?>">
+                            <input type="hidden" name='PromotionPrice[]' value="<?php echo $value['price'] ?>">
 
                             <tr>
                                 <td>

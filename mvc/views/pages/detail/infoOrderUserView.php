@@ -10,7 +10,6 @@ $current_page = $data['currentPage'];
             while ($row = mysqli_fetch_array($data['getInfoCustomer'])) {
             ?>
                 <img src="<?php echo $row['Image'] ?>" alt="">
-
             <?php
             }
             ?>
@@ -54,12 +53,12 @@ $current_page = $data['currentPage'];
                         <tr class="UserInfo_Order_right_tr">
                             <th><?php echo $rowInfoOrderUser['Id']; ?></th>
                             <th class="th1">
-                                <img class="img-thumbnail " width="100px" height="100px" src="<?php echo $rowInfoOrderUser['Image']; ?>" alt="">
+                                <img class="img-thumbnail " width="100px" height="100px" src="<?php echo $rowInfoOrderUser['pathImg']; ?>" alt="">
                             </th>
-                            <th><?php echo $rowInfoOrderUser['PaymentMethod']; ?></th>
+                            <th><?php echo $rowInfoOrderUser['paymentMethod']; ?></th>
                             <th><?php
-                                $ShipStatus = $rowInfoOrderUser['ShipStatus'];
-                                $PaymentMethod = $rowInfoOrderUser['PaymentMethod'];
+                                $ShipStatus = $rowInfoOrderUser['status'];
+                                $PaymentMethod = $rowInfoOrderUser['paymentMethod'];
                                 $PaymentStatus = $rowInfoOrderUser['PaymentStatus'];
                                 if ($ShipStatus === 0 && $PaymentMethod === "VNPAY" && $PaymentStatus === 0) {
                                 ?>
