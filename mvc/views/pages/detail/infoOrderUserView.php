@@ -9,7 +9,7 @@ $current_page = $data['currentPage'];
             <?php
             while ($row = mysqli_fetch_array($data['getInfoCustomer'])) {
             ?>
-                <img src="<?php echo $row['Image'] ?>" alt="">
+                <img src="<?php echo $row['img'] ?>" alt="">
             <?php
             }
             ?>
@@ -49,38 +49,37 @@ $current_page = $data['currentPage'];
                 <?php
                 if ($data['checkOrder'] != 0) {
                     while ($rowInfoOrderUser = mysqli_fetch_array($data['getOrderInfoUser'], MYSQLI_ASSOC)) {
+                        $ShipStatus = $rowInfoOrderUser['status'];
+                        $PaymentMethod = $rowInfoOrderUser['paymentMethod'];
                 ?>
                         <tr class="UserInfo_Order_right_tr">
-                            <th><?php echo $rowInfoOrderUser['Id']; ?></th>
+                            <th>#<?php echo $rowInfoOrderUser['Id']; ?></th>
                             <th class="th1">
                                 <img class="img-thumbnail " width="100px" height="100px" src="<?php echo $rowInfoOrderUser['pathImg']; ?>" alt="">
                             </th>
-                            <th><?php echo $rowInfoOrderUser['paymentMethod']; ?></th>
+                            <th><?php echo $PaymentMethod; ?></th>
                             <th><?php
-                                $ShipStatus = $rowInfoOrderUser['status'];
-                                $PaymentMethod = $rowInfoOrderUser['paymentMethod'];
-                                $PaymentStatus = $rowInfoOrderUser['PaymentStatus'];
-                                if ($ShipStatus === 0 && $PaymentMethod === "VNPAY" && $PaymentStatus === 0) {
+                                if ($ShipStatus === 0 && $PaymentMethod === "VNPAY") {
                                 ?>
                                     <form method="POST" action="/php_mvc/vnpay_php/vnpay_pay.php">
                                         <input type="hidden" name="OrderId" value="<?php echo $rowInfoOrderUser['Id'] ?>">
-                                        <input type="hidden" name="NameOrder" value="<?php echo $rowInfoOrderUser['CustomerName'] ?>">
-                                        <input type="hidden" name="PhoneNumber" value="<?php echo $rowInfoOrderUser['PhoneNumber'] ?>">
-                                        <input type="hidden" name="Address" value="<?php echo $rowInfoOrderUser['Address'] ?>">
-                                        <input type="hidden" name="PaymentMethod" value="<?php echo $rowInfoOrderUser['PaymentMethod'] ?>">
-                                        <input type="hidden" name="Total" value="<?php echo $rowInfoOrderUser['Total'] ?>">
+                                        <input type="hidden" name="NameOrder" value="<?php echo $rowInfoOrderUser['nameOrder'] ?>">
+                                        <input type="hidden" name="PhoneNumber" value="<?php echo $rowInfoOrderUser['phoneNumber'] ?>">
+                                        <input type="hidden" name="Address" value="<?php echo $rowInfoOrderUser['addRess'] ?>">
+                                        <input type="hidden" name="PaymentMethod" value="<?php echo $PaymentMethod; ?>">
+                                        <input type="hidden" name="Total" value="<?php echo $rowInfoOrderUser['totalAmount'] ?>">
                                         <button class="POST_Form_OrderUser_VNPay" type="submit" style="color: red; margin: 0 !important;">Đơn Hàng Chưa Được Thành
                                             Toán</button>
                                     </form>
                                 <?php
                                 } else {
-                                    if ($ShipStatus === 0) {
+                                    if ($ShipStatus === "0") {
                                         echo "Chờ Duyệt Đơn...";
-                                    } elseif ($ShipStatus === 1) {
+                                    } elseif ($ShipStatus === "1") {
                                         echo "Đơn Hàng Đang Được Vận Chuyển...";
-                                    } elseif ($ShipStatus === 2) {
+                                    } elseif ($ShipStatus === "2") {
                                         echo "Đã Nhận Hàng";
-                                    } elseif ($ShipStatus === -1) {
+                                    } elseif ($ShipStatus === "-1") {
                                         echo "Đơn Hàng Đã Được Hủy";
                                     }
                                 }

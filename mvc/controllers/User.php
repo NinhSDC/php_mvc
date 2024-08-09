@@ -61,7 +61,7 @@ class User extends Controller
 
         $checkOrderExist = $result_checkOrder['checkOrder'];
 
-        $limit = 10;
+        $limit = 5;
 
         $total_records = $this->UserModel->getCountOrders($IdUser);
 
@@ -89,10 +89,62 @@ class User extends Controller
         );
     }
 
+    public function OrderDetail($id)
+    {
+        $CustomerId = $_SESSION['accountTMP'][0];
+
+        $OrderDetail = $this->UserModel->getOrderDetailInfoUser($id);
+
+        $getTotalOrder = $this->UserModel->getTotalOrder($id);
+
+        $result_getTotalOrder = mysqli_fetch_array($getTotalOrder, MYSQLI_ASSOC);
+
+        echo "<table>
+        <tr class='UserInfo_Order_right_tr_DetailOrder'>
+            <th>Mã Sản Phẩm</th>
+            <th></th>
+            <th>Tên Sản Phẩm</th>
+            <th>Số Lượng</th>
+            <th>Giá Sản Phẩm</th>
+            <th>Thành Tiền</th>
+        <tr>";
+
+        while ($row = mysqli_fetch_array($OrderDetail)) {
+            $PriceProduct = $row["price"];
+            $Quantity = $row["quantity"];
+            $TotalPriceProduct = $PriceProduct * $Quantity;
+            echo "
+             <tr class='UserInfo_Order_right_tr_DetailOrder'>
+                    <th>" . $row["productID"] . "</th>
+                    <th><img height='100px' width='100px' src='" . $row["img"] . "' > </th>
+                    <th><a href='/php_mvc/Product/ProductDetail/" . $row["productID"] . "'>" . $row["productName"] . "</a></th>
+                    <th >" . $Quantity . "</th>
+                    <th >" . number_format($PriceProduct, 0, ',', '.') . '₫' . "</th>
+                    <th >" . number_format($TotalPriceProduct, 0, ',', '.') . '₫' . "</th>
+                </tr>
+            ";
+        }
+
+        echo  "</table";
+
+        echo "<table>
+        <tr class='UserInfo_Order_right_tr_DetailOrder'>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Thành Tiền : </th>
+            <th style='color:red;' >" . number_format($result_getTotalOrder["Total"], 0, ',', '.') . '₫' . "</th>
+        <tr>";
+        echo  "</table";
+        echo $result_getTotalOrder["Total"];
+    }
+
     function DeleteUpdateTransactionIdSESSION()
     {
         unset($_SESSION['UpdateTransactionId']);
     }
+
     function DeleteInfSubmitPaySESSION()
     {
         unset($_SESSION['InfSubmitPay']);

@@ -37,23 +37,57 @@ class UserModel extends DB
         return mysqli_fetch_array($result)[0];
     }
 
-    function getOrderInfoUser($IdUser, $skip = 0, $take = 10)
+    function getOrderInfoUser($IdUser, $skip = 0, $take = 5)
     {
-        $sql = "SELECT
-                orders.*,
-                o.productID AS productId,
-                p.path AS pathImg
-            FROM
-                orders
-            LEFT JOIN orderDetail o ON orders.Id = o.orderID 
-            LEFT JOIN productimages p ON p.productId = o.productID  
-            WHERE
-                orders.userID = '$IdUser' AND
-                p.sortOrder = 1
-            ORDER BY
-                orders.Id
-            LIMIT $skip, $take;";
+        $sql = "WITH OrderedDetails AS (
+                    SELECT
+                        od.*,
+                        ROW_NUMBER() OVER (PARTITION BY od.orderID ORDER BY od.Id DESC) AS rn
+                    FROM
+                        orderDetail od
+                )
+                SELECT
+                    orders.*,
+                    o.productID AS productId,
+                    p.path AS pathImg
+                FROM
+                    orders
+                LEFT JOIN
+                    (SELECT * FROM OrderedDetails WHERE rn = 1) o
+                ON
+                    orders.Id = o.orderID
+                LEFT JOIN
+                    productimages p
+                ON
+                    p.productId = o.productID
+                    AND p.sortOrder = 1
+                WHERE
+                    orders.userID = '$IdUser'
+                ORDER BY
+                    orders.Id
+                 LIMIT $skip, $take;";
 
+        return mysqli_query($this->conn, $sql);
+    }
+
+    function getOrderDetailInfoUser($id)
+    {
+        $sql = "SELECT 
+                orderDetail.*,
+                productimages.path AS img,
+                products.productName 
+                 FROM orderDetail 
+                 LEFT JOIN productimages ON productimages.productId = orderDetail.productID AND productimages.sortOrder = 1 
+                 LEFT JOIN products ON products.Id = orderDetail.productID 
+                 WHERE orderID = '$id'";
+        return mysqli_query($this->conn, $sql);
+    }
+
+    function getTotalOrder($orderID)
+    {
+        $sql = "SELECT orders.totalAmount AS Total
+                FROM orders 
+                WHERE Id = '$orderID'";
         return mysqli_query($this->conn, $sql);
     }
 }

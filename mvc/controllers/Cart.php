@@ -247,7 +247,8 @@ class Cart extends Controller
                         $PhoneNumber,
                         $Address,
                         $PaymentMethod,
-                        $Total
+                        $Total,
+                        $NameOrder
                     );
 
                     if ($CreateOrder != false) {
@@ -551,7 +552,8 @@ class Cart extends Controller
                         $PhoneNumber,
                         $Address,
                         $PaymentMethod,
-                        $Total
+                        $Total,
+                        $NameOrder
                     );
 
                     if ($CreateOrder != false) {

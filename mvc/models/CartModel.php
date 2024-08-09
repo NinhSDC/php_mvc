@@ -78,7 +78,7 @@ class CartModel extends DB
         return mysqli_query($this->conn, $sql);
     }
 
-    function CreateOrder($UserId, $Email, $PhoneNumber, $Address, $PaymentMethod, $Total)
+    function CreateOrder($UserId, $Email, $PhoneNumber, $Address, $PaymentMethod, $Total, $nameOrder)
     {
         if ($UserId == 'null') {
             $handleUserId = 'NULL';
@@ -86,8 +86,8 @@ class CartModel extends DB
             $handleUserId = "'$UserId'";
         }
 
-        $sql = "INSERT INTO `orders` (`userID`, `orderDate`, `PhoneNumber`, `totalAmount`, `status`, `email`, `address`, `paymentMethod`) 
-                           VALUES ($handleUserId, CURDATE(), '$PhoneNumber', '$Total', 1, '$Email', '$Address', '$PaymentMethod')";
+        $sql = "INSERT INTO `orders` (`userID`, `orderDate`, `PhoneNumber`, `totalAmount`, `status`, `email`, `address`, `paymentMethod`, `nameOrder`) 
+                           VALUES ($handleUserId, CURDATE(), '$PhoneNumber', '$Total', 1, '$Email', '$Address', '$PaymentMethod', '$nameOrder')";
         echo $sql;
         if (mysqli_query($this->conn, $sql)) {
             // Lấy ID của đơn hàng vừa được chèn
