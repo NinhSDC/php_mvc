@@ -63,11 +63,13 @@ if (isset($data['brands'])) {
                 <?php
                 if ($products !== null && count($products) > 0) {
                     foreach ($data['products'] as $rowPoduct) {
-                        if ($rowPoduct['PromotionPrice'] === null) {
-                            $rowPoduct['PromotionPrice'] = $rowPoduct['Price'];
-                            $Percent = 0;
+                        $Percent = $rowPoduct["percent"];
+                        $Price = $rowPoduct["price"];
+
+                        if ($Percent != 0) {
+                            $newPrice = $Price - ($Price * $Percent / 100);
                         } else {
-                            $Percent = ($rowPoduct['Price'] - $rowPoduct['PromotionPrice']) / $rowPoduct['Price'] * 100;
+                            $newPrice = $Price;
                         }
                 ?>
                         <div class="product_card customs_card_search l-2-8" onclick="viewProductSearch(this) " id="<?php echo $rowPoduct["Id"]; ?>">
@@ -82,20 +84,17 @@ if (isset($data['brands'])) {
                                 <span class="product_card-img-iconView">
                                     <i class="fa-regular fa-eye" style="color: #ffffff;"></i>
                                 </span>
-                                <img src="<?php echo $rowPoduct['Path'] ?>" alt="">
+                                <img src="<?php echo $rowPoduct['imageURL'] ?>" alt="">
                             </div>
                             <div class="product_card-info">
                                 <div class="product_card-info-title">
-                                    <div class="product_card-info-title-category-Search">
-                                        <p class="info_p"><?php echo $rowPoduct['CategoryName'] ?></p>
-                                    </div>
                                     <div class="product_card-info-title-name">
-                                        <p><?php echo $rowPoduct["Name"]; ?></p>
+                                        <p><?php echo $rowPoduct["productName"]; ?></p>
                                     </div>
                                 </div>
                                 <div class="product_card-info-price">
                                     <?php
-                                    if ($rowPoduct['Status'] === 0) {
+                                    if ($rowPoduct['status'] === 0) {
                                     ?>
                                         <span class="info-price-sale">Sản phẩm ngừng kinh doanh</span>
                                     <?php
@@ -105,11 +104,12 @@ if (isset($data['brands'])) {
                                         <?php
                                         if ($Percent != 0) {
                                         ?>
-                                            <span class="info-price-initial"><?php echo number_format($rowPoduct['Price'], 0, ',', '.') . '₫'; ?></span>
+                                            <span class="info-price-initial"><?php echo number_format($rowPoduct["price"], 0, ',', '.') . '₫'; ?></span>
                                         <?php
                                         }
                                         ?>
-                                        <span class="info-price-sale"><?php echo number_format($rowPoduct['PromotionPrice'], 0, ',', '.') . '₫'; ?>
+
+                                        <span class="info-price-sale"><?php echo number_format($newPrice, 0, ',', '.') . '₫'; ?>
                                             ₫</span>
                                     <?php
                                     }

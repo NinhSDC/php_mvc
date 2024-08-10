@@ -46,11 +46,20 @@ class ProductsModel extends DB
     function GetInfProduct($ProductId)
     {
         $sql = "SELECT Products.*,
-                      ProductImages.Path
+                      ProductImages.path
                FROM Products 
                LEFT JOIN ProductImages ON Products.Id = ProductImages.ProductId
                WHERE Products.Id = '$ProductId' AND ProductImages.sortOrder = 1 ";
 
         return mysqli_query($this->conn, $sql);
+    }
+
+    function getCountProductsByCategoryId($ProductId)
+    {
+        $sql = "SELECT COUNT(*) FROM Products WHERE CategoryID='$ProductId'";
+
+        $result = mysqli_query($this->conn, $sql);
+
+        return mysqli_fetch_array($result)[0];
     }
 }

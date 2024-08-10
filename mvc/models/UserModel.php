@@ -1,6 +1,15 @@
 <?php
 class UserModel extends DB
 {
+
+    function getInfoOrder($userID)
+    {
+        $sql = "SELECT orders.status AS status
+        FROM orders
+        WHERE userID = '$userID' ";
+        return mysqli_query($this->conn, $sql);
+    }
+
     function getInfoCustomer($userID)
     {
         $sql = "SELECT *

@@ -1090,9 +1090,9 @@ li a {
 }
 .UserInfo_left_icon:hover > a > i,
 .UserInfo_left_icon:hover > a > p {
-  color: #28ab2c;
-  text-shadow: rgb(4 237 4 / 10%) 0px 0px 5px, rgb(4 237 4 / 10%) 0px 0px 10px,
-    rgb(4 237 4 / 10%) 0px 0px 15px;
+  color: #ab282899;
+  text-shadow: rgba(237, 4, 4, 0.1) 0px 0px 5px, rgba(237, 4, 4, 0.1) 0px 0px 10px,
+    rgba(237, 4, 4, 0.1) 0px 0px 15px;
 }
 
 .UserInfo_right {
@@ -1138,7 +1138,7 @@ li a {
 }
 .UserInfo_Order_right_tr .th4 > i:hover {
   opacity: 1;
-  color: #2dcb33;
+  color: #cb2d2d52;
 }
 .UserInfo_Order_right_tr_DetailOrder th {
   width: 20%; /* Chia đều khoảng cách cho mỗi cột */
@@ -2164,7 +2164,7 @@ body .block-tab {
 }
 
 .pagination a.active {
-  background-color: #4caf50;
+  background-color: #af4c4c;
   color: white;
   border-radius: 5px;
 }

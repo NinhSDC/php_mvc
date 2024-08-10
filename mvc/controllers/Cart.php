@@ -3,10 +3,12 @@ class Cart extends Controller
 {
     public $CartModel;
     public $ProductsModel;
+    public $UserModel;
     public function __construct()
     {
         $this->CartModel = $this->Model("CartModel");
         $this->ProductsModel = $this->Model("ProductsModel");
+        $this->UserModel = $this->Model("UserModel");
     }
     function index()
     {
@@ -543,6 +545,7 @@ class Cart extends Controller
                 $PaymentMethod = $_POST['PaymentMethod'];
                 $Total = $_POST['total_all_addVoucher'];
                 $Status = 0;
+                $CreatedTime = 'getdate()';
 
                 if (isset($PaymentMethod) && $PaymentMethod == 'COD') {
 
@@ -553,7 +556,8 @@ class Cart extends Controller
                         $Address,
                         $PaymentMethod,
                         $Total,
-                        $NameOrder
+                        $NameOrder,
+                        1
                     );
 
                     if ($CreateOrder != false) {
@@ -585,6 +589,7 @@ class Cart extends Controller
                         if ($Completed) {
 
                             $getCartId = $this->CartModel->CheckCartExist($UserId);
+
                             $resultGetCartId = mysqli_fetch_array($getCartId, MYSQLI_ASSOC);
 
                             $DeleteCartDetail = $this->CartModel->DeleteCartDetail($resultGetCartId['Id']);
@@ -610,25 +615,18 @@ class Cart extends Controller
                     $ProductWarehouseId = 'null';
 
                     $CreateOrder = $this->CartModel->CreateOrder(
-                        $CustomerId,
-                        $CustomerName,
-                        $PhoneNumber,
+                        $UserId,
                         $Email,
+                        $PhoneNumber,
                         $Address,
-                        $Note,
                         $PaymentMethod,
-                        $TmpTotal,
                         $Total,
-                        $StaffId,
-                        $StoreId,
-                        $ShipStatus,
-                        $PaymentStatus,
-                        $CreatedTime,
-                        $LastUpdated
+                        $NameOrder,
+                        $Status
                     );
                     if ($CreateOrder != null) {
 
-                        $TransactionStatus = $PaymentStatus;
+                        $TransactionStatus = $Status;
                         $TransactionId = 0;
                         $BankName = "NCB";
                         $Price = $Total;
@@ -642,45 +640,45 @@ class Cart extends Controller
                             $Quantity = $_POST['Quantity'][$i];
                             $ProducPrice = $_POST['PromotionPrice'][$i];
                             if ($ProducPrice != "" && $ProductId != "" && $Quantity != "") {
-                                $CreateOrderDetail = $this->CartModel->CreateOrderDetail(
+                                $result = $this->CartModel->CreateOrderDetails(
                                     $OrderId,
                                     $ProductId,
-                                    $Path,
-                                    $ProductName,
                                     $Quantity,
-                                    $ProducPrice,
-                                    $CreatedTime,
-                                    $LastUpdated,
-                                    $ProductWarehouseId
+                                    $ProducPrice
                                 );
-                            } else {
-                                $Completed = true;
+                                if (!$result) {
+                                    // Nếu CreateOrderDetails trả về false, dừng vòng lặp và đặt $Completed thành false
+                                    $Completed = false;
+                                    break;
+                                }
                             }
                         }
+
                         if ($PaymentMethod === "VNPAY") {
                             $_SESSION['InfSubmitPay'] = [$Total, $OrderId];
 
                             if ($Completed = true) {
 
-                                $CreateVNPAY = $this->CartModel->CreateVNPAY($OrderId, $BankName, $TransactionId, $TransactionStatus, $Price, $DateTimePayment);
+                                $getInfoOrder = $this->UserModel->getInfoOrder($UserId);
 
-                                $GetIdCart = $this->CartModel->GetIdCart($CustomerId);
+                                $resultgetInfoOrder = mysqli_fetch_array($getInfoOrder, MYSQLI_ASSOC);
+                                ///////////////////////////////////////////////////////////////////
+                                $getCartId = $this->CartModel->CheckCartExist($UserId);
 
-                                $result_GetIdCart = sqlsrv_fetch_array($GetIdCart, SQLSRV_FETCH_ASSOC);
+                                $resultGetCartId = mysqli_fetch_array($getCartId, MYSQLI_ASSOC);
 
-                                $CartId = $result_GetIdCart['Id'];
+                                $DeleteCartDetail = $this->CartModel->DeleteCartDetail($resultGetCartId['Id']);
 
-                                $DeleteCartDetail = $this->CartModel->DeleteCartDetail($CartId);
+                                $_SESSION['ShowBill'] = [$OrderId, $NameOrder, $PhoneNumber, $Address, $PaymentMethod, $resultgetInfoOrder['status']];
 
-                                $checkTransactionStatusVNPAY = $this->CartModel->checkTransactionStatusVNPAY($OrderId);
+                                if ($DeleteCartDetail !== false) {
 
-                                $result_checkTransactionStatusVNPAY = sqlsrv_fetch_array($checkTransactionStatusVNPAY);
+                                    $this->DeleteCartSESSION();
 
-                                $PaymentStatus = $result_checkTransactionStatusVNPAY['TransactionStatus'];
+                                    $this->DeleteUpdateTransactionIdSESSION();
 
-                                $_SESSION['ShowVNPAY'] = [$OrderId, $NameOrder, $PhoneNumber, $Address, $PaymentMethod, $PaymentStatus];
-
-                                header('location: /php_mvc/vnpay_php/vnpay_pay.php');
+                                    header('location: /php_mvc/vnpay_php/vnpay_pay.php');
+                                }
                             } else {
                                 setcookie('errorCompleted', "errorCompleted", time() + 2);
                                 header('location: /php_mvc/Cart/ShowBill');
@@ -696,28 +694,28 @@ class Cart extends Controller
     function ShowBill()
     {
         if (isset($_SESSION['UpdateTransactionId'])) {
-            $TransactionId = $_SESSION['UpdateTransactionId'][0];
+            $TransactionId = (int)$_SESSION['UpdateTransactionId'][0];
             $OrderId = $_SESSION['InfSubmitPay'][1];
             $TransactionStatus = $_SESSION['UpdateTransactionId'][2];
-            $updateVNPAY = $this->CartModel->updateVNPAY($OrderId, $TransactionId, $TransactionStatus);
+            $userID = $_SESSION['accountTMP'][0];
 
-            if ($updateVNPAY) {
+            $UpdateOrder = $this->CartModel->UpdateOrder($OrderId, $TransactionId, $TransactionStatus);
 
-                $checkTransactionStatusVNPAY = $this->CartModel->checkTransactionStatusVNPAY($OrderId);
+            if ($UpdateOrder) {
 
-                $result_checkTransactionStatusVNPAY = mysqli_fetch_array($checkTransactionStatusVNPAY);
+                $getInfoOrder = $this->UserModel->getInfoOrder($userID);
 
-                $PaymentStatus = $result_checkTransactionStatusVNPAY['TransactionStatus'];
+                $result_getInfoOrder = mysqli_fetch_array($getInfoOrder);
 
-                if ($PaymentStatus === 1) {
-                    $updatePaymentStatusOrder = $this->CartModel->updatePaymentStatusOrder($PaymentStatus, $OrderId);
-                    if ($updatePaymentStatusOrder) {
-                        $_SESSION['ShowVNPAY'][5] = $PaymentStatus;
+                if ($result_getInfoOrder['status'] === 1) {
+                    $UpdateOrderStatus = $this->CartModel->UpdateOrderStatus($OrderId, $result_getInfoOrder['status']);
+                    if ($UpdateOrderStatus) {
+                        $_SESSION['ShowVNPAY'][5] = $result_getInfoOrder['status'];
                     }
-                } elseif ($PaymentStatus === 0) {
-                    $updatePaymentStatusOrder = $this->CartModel->updatePaymentStatusOrder($PaymentStatus, $OrderId);
-                    if ($updatePaymentStatusOrder) {
-                        $_SESSION['ShowVNPAY'][5] = $PaymentStatus;
+                } elseif ($result_getInfoOrder['status'] === 0) {
+                    $UpdateOrderStatus = $this->CartModel->UpdateOrderStatus($OrderId, $result_getInfoOrder['status']);
+                    if ($UpdateOrderStatus) {
+                        $_SESSION['ShowVNPAY'][5] = $result_getInfoOrder['status'];
                     }
                 }
             } else {
@@ -773,8 +771,6 @@ class Cart extends Controller
             }
         }
     }
-
-
 
     function DeleteUpdateTransactionIdSESSION()
     {

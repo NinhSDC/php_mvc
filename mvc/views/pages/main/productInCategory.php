@@ -31,11 +31,6 @@ if (isset($data['brands'])) {
     $brands = $data['brands'];
 }
 
-$brandsFilter = [];
-if (isset($_POST["brands"])) {
-    $brandsFilter = $_POST["brands"];
-}
-
 ?>
 <input type="hidden" name="sortedBy" id="<?php echo $sortedBy; ?>">
 <input type="hidden" name="categoryId" id="<?php echo $categoryId; ?>">
@@ -56,46 +51,6 @@ if (isset($_POST["brands"])) {
         </div>
     </div>
 
-    <div class="Sorted_By l-12 mb-2 mt-2">
-        <div class="Sorted_By_Content h-100 position-relative">
-            <div class="TitleKeySorted_By">
-                <h5 class="px-1">Thương hiệu :</h5>
-            </div>
-            <div class="h-100">
-                <form action="/php_mvc/Home/Category/<?php echo $categoryId . '/' . $sortedBy . '/1' ?>" method="post">
-                    <ul class="mb-0 ">
-                        <?php
-                        if ($brands != null) {
-                            foreach ($brands as $brand) {
-                                $isChecked = in_array($brand["Id"], $brandsFilter) ?  'checked' :  '';
-
-                                echo '<li>
-                                        <input type="checkbox" name="brands[]" ' . $isChecked . ' value="' . $brand["Id"] . '" id="myCheckbox' . $brand['Id'] . '" />
-                                        <label for="myCheckbox' . $brand['Id'] . '"><img src="' . $brand['Thumbnail'] . '" /></label>
-                                    </li>';
-                            }
-                            echo "<button class='btn btn-primary position-absolute' style='bottom: 20px; right: 20px'>Lọc</button>";
-                        }
-                        ?>
-                        <!-- <li>
-                            <input type="checkbox" id="myCheckbox1" />
-                            <label for="myCheckbox1"><img src="http://townandcountryremovals.com/wp-content/uploads/2013/10/firefox-logo-200x200.png" /></label>
-                        </li>
-                        <li>
-
-                            <input type="checkbox" id="myCheckbox2" />
-                            <label for="myCheckbox2"><img src="http://tech21info.com/admin/wp-content/uploads/2013/03/chrome-logo-200x200.png" /></label>
-                        </li>
-                        <li>
-
-                            <input type="checkbox" id="myCheckbox3" />
-                            <label for="myCheckbox3"><img src="http://www.thebusinessofsports.com/wp-content/uploads/2010/10/facebook-icon-200x200.png" /></label>
-                        </li> -->
-                    </ul>
-                </form>
-            </div>
-        </div>
-    </div>
     <?php
     if ($products !== null && count($products) > 0) {
     ?>
@@ -139,12 +94,13 @@ if (isset($_POST["brands"])) {
             <?php
             if ($products !== null && count($products) > 0) {
                 foreach ($data['products'] as $product) {
+                    $Percent = $product["percent"];
+                    $Price = $product["price"];
 
-                    if ($product['PromotionPrice'] === null) {
-                        $product['PromotionPrice'] = $product['Price'];
-                        $Percent = 0;
+                    if ($Percent != 0) {
+                        $newPrice = $Price - ($Price * $Percent / 100);
                     } else {
-                        $Percent = ($product['Price'] - $product['PromotionPrice']) / $product['Price'] * 100;
+                        $newPrice = $Price;
                     }
             ?>
                     <div class="product_card customs_card_search l-2-8" onclick="viewProductSearch(this) " id="<?php echo $product["Id"]; ?>">
@@ -159,27 +115,24 @@ if (isset($_POST["brands"])) {
                             <span class="product_card-img-iconView">
                                 <i class="fa-regular fa-eye" style="color: #ffffff;"></i>
                             </span>
-                            <img src="<?php echo $product['Path'] ?>" alt="">
+                            <img src="<?php echo $product['imageURL'] ?>" alt="">
                         </div>
                         <div class="product_card-info">
                             <div class="product_card-info-title">
-                                <div class="product_card-info-title-category-Search">
-                                    <p class="info_p"><?php echo $product['CategoryName'] ?></p>
-                                </div>
                                 <div class="product_card-info-title-name">
-                                    <p><?php echo $product["Name"]; ?></p>
+                                    <p><?php echo $product["productName"]; ?></p>
                                 </div>
                             </div>
                             <div class="product_card-info-price">
                                 <?php
                                 if ($Percent != 0) {
                                 ?>
-                                    <span class="info-price-initial"><?php echo number_format($product['Price'], 0, ',', '.') . '₫'; ?></span>
+                                    <span class="info-price-initial"><?php echo number_format($product["price"], 0, ',', '.') . '₫'; ?></span>
                                 <?php
                                 }
                                 ?>
 
-                                <span class="info-price-sale"><?php echo number_format($product['PromotionPrice'], 0, ',', '.') . '₫'; ?>
+                                <span class="info-price-sale"><?php echo number_format($newPrice, 0, ',', '.') . '₫'; ?>
                                     ₫</span>
                             </div>
                         </div>

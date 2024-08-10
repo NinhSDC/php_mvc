@@ -11,9 +11,9 @@
             Đại lý phân phối của cty Saffron Việt Nam <br>
             Địa chỉ: 176 Đường Cao Lỗ, phường 4, Quận 8, Hồ Chí Minh <br>
             <i class="icon-policy fa-regular fa-envelope fa-sm"></i>
-            Email: <a href="mailto:SmallHall.vn@gmail.com">SmallHall.vn@gmail.com</a> <br>
+            Email: <a href="mailto:ClockLuxyryCanTho@gmail.com">ClockLuxyryCanTho@gmail.com</a> <br>
             <i class="icon-policy fa-solid fa-earth-americas fa-sm"></i>
-            Website: <a href="">https://SmallHall.vn</a> <br>
+            Website: <a href="">https://ClockLuxyryCanTho.vn</a> <br>
             <i class="icon-policy fa-solid fa-phone fa-sm"></i>
             Hotline: <a href="tel:0967311513">0967.311.513</a>
         </p>

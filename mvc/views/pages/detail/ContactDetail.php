@@ -8,12 +8,12 @@
 
         <div class="contact_content1 l-6">
             <h2>Liên hệ với chúng tôi</h2>
-            <h3 style="color: var(--ForestGree);">Siêu Thị Điện Máy Small-Hall</h3>
+            <h3 style="color: var(--ForestGree);">Clock Luxyry Cần Thơ</h3>
             <p>
                 <i class="far fa-arrow-alt-circle-right arrow"></i>
-                Địa chỉ: 176 Đường Cao Lỗ, phường 4, Quận 8, Hồ Chí Minh <br> <br>
+                Địa chỉ: 176 Đường Cao Lỗ, phường 4, Cần Thơ <br> <br>
                 <i class="far fa-arrow-alt-circle-right arrow"></i>
-                Email: <a href="">Small-Hall.vn@gmail.com</a> <br><br>
+                Email: <a href="">ClockLuxyryCanTho@gmail.com</a> <br><br>
                 <i class="far fa-arrow-alt-circle-right arrow"></i>
                 Website: <a href="">http://localhost/php_mvc/</a> <br><br>
                 <i class="far fa-arrow-alt-circle-right arrow"></i>
@@ -27,11 +27,11 @@
             <p>
 
                 <i class="far fa-arrow-alt-circle-right arrow"></i>
-                Trụ sở: Small-Hall Việt Nam, 259 Khuất Duy Tiến, Thanh Xuân, Hà Nội. <br> <br>
+                Trụ sở: ClockLuxyry Việt Nam, 259 Khuất Duy Tiến, Thanh Xuân, Hà Nội. <br> <br>
                 <i class="far fa-arrow-alt-circle-right arrow"></i>
-                Email: <a href="">info@Small-Hall.vn</a> <br><br>
+                Email: <a href="">ClockLuxyry@gmail.com</a> <br><br>
                 <i class="far fa-arrow-alt-circle-right arrow"></i>
-                Website: <a href="">Small-Hall.vn</a> <br><br>
+                Website: <a href="">ClockLuxyry.vn</a> <br><br>
                 <i class="far fa-arrow-alt-circle-right arrow"></i>
                 Hotline: >0862.36.36.22 | 1900.2525.68 | 0981333860 | 097 100 6641
             </p>

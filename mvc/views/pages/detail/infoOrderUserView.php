@@ -59,7 +59,7 @@ $current_page = $data['currentPage'];
                             </th>
                             <th><?php echo $PaymentMethod; ?></th>
                             <th><?php
-                                if ($ShipStatus === 0 && $PaymentMethod === "VNPAY") {
+                                if ($ShipStatus === "0" && $PaymentMethod === "VNPAY") {
                                 ?>
                                     <form method="POST" action="/php_mvc/vnpay_php/vnpay_pay.php">
                                         <input type="hidden" name="OrderId" value="<?php echo $rowInfoOrderUser['Id'] ?>">

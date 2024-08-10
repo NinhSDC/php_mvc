@@ -35,13 +35,16 @@
             if (isset($_SESSION['InfSubmitPay'])) {
                 $Total = $_SESSION['InfSubmitPay'][0];
             } else if (isset($_POST['Total'])) {
+
                 if (!isset($_SESSION['InfSubmitPay'])) {
                     $_SESSION['InfSubmitPay'] = [$_POST['Total'], $_POST['OrderId']];
                 }
+
                 if (!isset($_SESSION['ShowVNPAY'])) {
                     $_SESSION['ShowVNPAY'] = [$_POST['OrderId'], $_POST['NameOrder'], $_POST['PhoneNumber'], $_POST['Address'], $_POST['PaymentMethod'], 1];
                 }
-                var_dump($_SESSION['ShowVNPAY']);
+
+                //var_dump($_SESSION['ShowVNPAY']);
                 $Total = $_POST['Total'];
             }
 

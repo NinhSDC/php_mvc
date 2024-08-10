@@ -78,7 +78,7 @@ class CartModel extends DB
         return mysqli_query($this->conn, $sql);
     }
 
-    function CreateOrder($UserId, $Email, $PhoneNumber, $Address, $PaymentMethod, $Total, $nameOrder)
+    function CreateOrder($UserId, $Email, $PhoneNumber, $Address, $PaymentMethod, $Total, $nameOrder, $Status)
     {
         if ($UserId == 'null') {
             $handleUserId = 'NULL';
@@ -87,7 +87,7 @@ class CartModel extends DB
         }
 
         $sql = "INSERT INTO `orders` (`userID`, `orderDate`, `PhoneNumber`, `totalAmount`, `status`, `email`, `address`, `paymentMethod`, `nameOrder`) 
-                           VALUES ($handleUserId, CURDATE(), '$PhoneNumber', '$Total', 1, '$Email', '$Address', '$PaymentMethod', '$nameOrder')";
+                           VALUES ($handleUserId, CURDATE(), '$PhoneNumber', '$Total', '$Status', '$Email', '$Address', '$PaymentMethod', '$nameOrder')";
         echo $sql;
         if (mysqli_query($this->conn, $sql)) {
             // Lấy ID của đơn hàng vừa được chèn
@@ -102,6 +102,23 @@ class CartModel extends DB
     {
         $sql = "INSERT INTO `orderdetail`(`orderID`, `productID`, `quantity`, `price`)
                                VALUES ('$OrderId','$ProductId','$Quantity','$ProducPrice')";
+        return mysqli_query($this->conn, $sql);
+    }
+
+    function UpdateOrder($OrderId, $TransactionId, $TransactionStatus)
+    {
+        $sql = "UPDATE `orders`
+                SET status = '$TransactionStatus',
+                    repayment = '$TransactionId'
+                WHERE `Id`= '$OrderId' ";
+        return mysqli_query($this->conn, $sql);
+    }
+
+    function UpdateOrderStatus($OrderId, $TransactionStatus)
+    {
+        $sql = "UPDATE `orders`
+        SET `status`='$TransactionStatus'
+         WHERE `Id`='$OrderId' ";
         return mysqli_query($this->conn, $sql);
     }
 
