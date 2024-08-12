@@ -63,7 +63,7 @@ class Cart extends Controller
                     $listcartModel[$key] = array(
                         'ProductId' => $result_getProductTMP['Id'],
                         'nameProduct' => $result_getProductTMP['productName'],
-                        'Path' => $result_getProductTMP['Path'],
+                        'Path' => $result_getProductTMP['path'],
                         'quantity' => $value,
                         'price' => $PromotionPrice,
                     );

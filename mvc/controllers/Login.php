@@ -2,9 +2,11 @@
 class Login extends Controller
 {
     public $LoginModel;
+    public $Role;
     public function __construct()
     {
         $this->LoginModel = $this->Model("LoginModel");
+        $this->Role = $this->Model("RoleModel");
     }
 
     function index()
@@ -33,7 +35,6 @@ class Login extends Controller
                     setcookie('error', "AccountNULL", time() + 1);
                     header('location: /php_mvc/Login');
                     die();
-
                 } else {
 
                     $login = $this->LoginModel->GetInfoUser($User);
@@ -42,25 +43,31 @@ class Login extends Controller
                         setcookie('error', "AccountFalse", time() + 1);
                         header('location: /php_mvc/Login');
                         die();
-
                     } else {
                         // Người dùng tồn tại
-                        $result_login = mysqli_fetch_array($login,  MYSQLI_ASSOC);  
+                        $result_login = mysqli_fetch_array($login,  MYSQLI_ASSOC);
                         $hashed_password = $result_login['password'];
                         // Xác minh mật khẩu
                         if (password_verify($Pass, $hashed_password)) {
                             // bắt đàu tạo session ['accountTMP']
-                           echo $result_login['Id'];
-                           echo $hashed_password;
                             $_SESSION["accountTMP"] = [
                                 $result_login['Id'],
                                 $result_login['roleName'],
                                 $result_login['username'],
                                 $result_login['email']
                             ];
+
+                            if (isset($_SESSION["accountTMP"])) {
+
+                                $getUserRole = $this->Role->GetRoleUser($_SESSION['accountTMP'][0]);
+
+                                if ($getUserRole == 1) {
+                                    header('location: /php_mvc/Admin');
+                                }
+                            }
+
                             header('location: /php_mvc/');
-                        } 
-                        else {
+                        } else {
                             setcookie('error', "AccountFalse", time() + 1);
                             header('location: /php_mvc/Login');
                             die();
@@ -68,7 +75,6 @@ class Login extends Controller
                     }
                 }
             }
-
         }
 
         $this->View(
