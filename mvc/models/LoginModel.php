@@ -10,7 +10,8 @@ class LoginModel extends DB
     function GetInfoUser($email)
     {
         $sql = "SELECT users.*,
-         roles.roleName as roleName
+            roles.roleName as roleName,
+            roles.Id as rolesId
           FROM users 
           LEFT JOIN userrole ON userrole.userID = users.Id 
           LEFT JOIN roles ON roles.Id = userrole.roleId 

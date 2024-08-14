@@ -1,32 +1,32 @@
 <?php
 class Admin extends Controller
 {
-    public $Role;
+    public $RoleModel;
+    public $AdminModel;
+
     public function __construct()
     {
-        $this->Role = $this->Model("RoleModel");
+        $this->RoleModel = $this->Model("RoleModel");
+        $this->AdminModel = $this->Model("AdminModel");
     }
 
     function index()
     {
-        if (isset($_SESSION['accountTMP'])) {
-
-            $userId = $_SESSION['accountTMP'][0];
-
-            $getUserRole = $this->Role->GetRoleUser($userId);
-
-            if ($getUserRole != 1) {
-                header('location: /php_mvc/Login');
-            }
-
-            header('location: /php_mvc/Admin');
-        } else {
+        if (!isset($_SESSION['accountTMP'])) {
+            header('location: /php_mvc/Login');
+        }
+        if ($_SESSION['accountTMP'][1] != 1) {
             header('location: /php_mvc/Login');
         }
 
+
+
         $this->View(
             "AdminView",
-            []
+            [
+                "page" => "homePageAdmin",
+                "NumberOrders" => $this->AdminModel->NumberOrders()
+            ]
         );
     }
 }

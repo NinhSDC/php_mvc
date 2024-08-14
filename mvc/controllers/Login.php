@@ -52,18 +52,15 @@ class Login extends Controller
                             // bắt đàu tạo session ['accountTMP']
                             $_SESSION["accountTMP"] = [
                                 $result_login['Id'],
+                                $result_login['rolesId'],
                                 $result_login['roleName'],
                                 $result_login['username'],
                                 $result_login['email']
                             ];
 
-                            if (isset($_SESSION["accountTMP"])) {
-
-                                $getUserRole = $this->Role->GetRoleUser($_SESSION['accountTMP'][0]);
-
-                                if ($getUserRole == 1) {
-                                    header('location: /php_mvc/Admin');
-                                }
+                            if (isset($_SESSION['accountTMP']) && $_SESSION['accountTMP'][1] == 1) {
+                                header('location: /php_mvc/admin');
+                                die();
                             }
 
                             header('location: /php_mvc/');
