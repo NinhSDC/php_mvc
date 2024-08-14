@@ -30,27 +30,27 @@
 
       <div class="sidebar">
 
-        <a href="/quanly_lv_tl/admin/listFacultyAdmin/" class="">
+        <a href="/php_mvc/admin/OrderManagementAdmin/" class="">
           <span class="material-symbols-sharp"> library_books </span>
-          <h3>Quản lý chuyên ngành</h3>
+          <h3>Quản lý đơn hàng</h3>
         </a>
-        <a href="/quanly_lv_tl/admin/checkPostTopicAdmin/" class="">
+        <a href="/php_mvc/admin/checkPostTopicAdmin/" class="">
           <span class="material-symbols-sharp">event</span>
           <h3>Đăng Bài</h3>
         </a>
-        <a href="/quanly_lv_tl/admin/listLecturersAdmin/" class="">
+        <a href="/php_mvc/admin/listLecturersAdmin/" class="">
           <span class="material-symbols-sharp">group</span>
           <h3>Quản lý giảng viên</h3>
         </a>
-        <a href="/quanly_lv_tl/admin/listUserAdmin/" class="">
+        <a href="/php_mvc/admin/listUserAdmin/" class="">
           <span class="material-symbols-sharp">group</span>
           <h3>Quản lý Sinh Viên</h3>
         </a>
-        <a href="/quanly_lv_tl/admin/listUserLockAdmin/" class="">
+        <a href="/php_mvc/admin/listUserLockAdmin/" class="">
           <span class="material-symbols-sharp">block</span>
           <h3>Quản lý Tài Khoản Khóa </h3>
         </a>
-        <a href="/quanly_lv_tl/admin/listPostTopicAdmin/" class="">
+        <a href="/php_mvc/admin/listPostTopicAdmin/" class="">
           <span class="material-symbols-sharp"> folder </span>
           <h3>Quản lý Các Đề Tài</h3>
         </a>
@@ -68,7 +68,7 @@
     <main>
       <?php
       require_once "./mvc/views/pages/adminViews/TopContainer.php";
-      require_once "./mvc/views/pages/adminViews/" . $data['homePageAdmin'] . ".php";
+      require_once "./mvc/views/pages/adminViews/" . $data['page'] . ".php";
       ?>
     </main>
   </div>

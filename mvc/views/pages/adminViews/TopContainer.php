@@ -1,42 +1,31 @@
 <div class="total_block">
   <div class="total_block-item">
-    <p>Tổng số chuyên ngành </p>
+    <p>Tổng số đơn hàng </p>
     <?php
-    $numberFaculty = 0;
-    while ($listnumberFaculty = mysqli_fetch_array($data['numberFaculty'])) {
-      $numberFaculty++;
-    }
+    $NumberOrders = $data['NumberOrders'];
     ?>
-    <h2><?= $numberFaculty; ?></h2>
+    <h2><?= $NumberOrders; ?></h2>
   </div>
   <div class="total_block-item">
-    <p>Tổng số đề tài </p>
+    <p>Tổng sản phẩm còn hàng</p>
     <?php
-    $numberTopic = 0;
-    while ($listnumberTopic = mysqli_fetch_array($data['numberTopic'])) {
-      $numberTopic ++;
-    }
+    $NumberProductsActive = $data['NumberProductsActive'];
+    $NumberProductsNoActive = $data['NumberProductsNoActive'];
     ?>
-    <h2><?= $numberTopic; ?></h2>
+    <h2><?= $NumberProductsActive; ?> </h2>
   </div>
   <div class="total_block-item">
-    <p>Tổng số giảng viên</p>
+    <p>Tổng số người dùng </p>
     <?php
-    $numberUserGV = 0;
-    while ($listNumberUserGV = mysqli_fetch_array($data['numberUserGV'])) {
-      $numberUserGV++;
-    }
+    $NumberUsers = $data['NumberUsers'];
     ?>
-    <h2><?= $numberUserGV; ?></h2>
+    <h2><?= $NumberUsers; ?></h2>
   </div>
   <div class="total_block-item">
-    <p>Tổng số sinh viên</p>
+    <p style="color: red;">Tổng đơn hàng chờ duyệt</p>
     <?php
-    $numberUser = 0;
-    while ($listNumberUser = mysqli_fetch_array($data['numberUser'])) {
-      $numberUser++;
-    }
+    $NumberOrderPendingApproval = $data['NumberOrderPendingApproval'];
     ?>
-    <h2><?= $numberUser; ?></h2>
+    <h2 style="color: red;"><?= $NumberOrderPendingApproval; ?></h2>
   </div>
 </div>
