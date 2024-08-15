@@ -21,32 +21,75 @@ class Admin extends Controller
             header('location: /php_mvc/Login');
         }
 
-        $this->Views('homePageAdmin');
+        $this->renderAdminView('homePageAdmin', []);
     }
 
-    function Views($page)
+    function renderAdminView($page, $additionalData = [])
     {
-        $this->View(
-            "AdminView",
-            [
-                "page" => $page,
-                "NumberOrders" => $this->AdminModel->NumberOrders(),
-                "NumberUsers" => $this->AdminModel->NumberUsers(),
-                "NumberProductsActive" => $this->AdminModel->NumberProductsActive(),
-                "NumberProductsNoActive" => $this->AdminModel->NumberProductsNoActive(),
-                "NumberOrderPendingApproval" => $this->AdminModel->NumberOrderPendingApproval()
-            ]
-        );
+        $baseData = [
+            "page" => $page,
+            "NumberOrders" => $this->AdminModel->NumberOrders(),
+            "NumberUsers" => $this->AdminModel->NumberUsers(),
+            "NumberProductsActive" => $this->AdminModel->NumberProductsActive(),
+            "NumberProductsNoActive" => $this->AdminModel->NumberProductsNoActive(),
+            "NumberOrderPendingApproval" => $this->AdminModel->NumberOrderPendingApproval()
+        ];
+
+        // Gộp dữ liệu cơ bản với dữ liệu bổ sung
+        $data = array_merge($baseData, $additionalData);
+
+        $this->View("AdminView", $data);
     }
 
-    function OrderManagementAdmin()
+
+    function OrderManagementAdmin($current_page = 1)
     {
-        $this->Views('OrderManagementAdmin');
-        $this->View(
-            "AdminView",
-            [
-                "getAllOrder" => $this->OrderModel->getAllOrder()
-            ]
-        );
+        $limit = 4;
+
+        $total_records = $this->OrderModel->GetCountOrders();
+
+        $total_page = ceil($total_records / $limit);
+
+        if ($current_page > $total_page) {
+            $current_page = $total_page;
+        } else if ($current_page < 1) {
+            $current_page = 1;
+        }
+
+        // Tìm Start
+        $start = ($current_page - 1) * $limit;
+
+        $arrayView = [
+            "GetAllOrder" => $this->OrderModel->GetAllOrder($start, $limit),
+            "currentPage" => $current_page,
+            "totalPage" => $total_page
+        ];
+        $this->renderAdminView('OrderManagementAdmin', $arrayView);
+    }
+
+    function InfoOrderAdmin($idOrder)
+    {
+        $arrayView = [
+            "GetAllOrder" => $this->OrderModel->infOrderId($idOrder)
+        ];
+        $this->renderAdminView('editOrderAdmin', $arrayView);
+    }
+
+    function EditOrder()
+    {
+        if (isset($_POST['submit'])) {
+            $status = $_POST['status'];
+            $idOrder = $_POST['IdOrder'];
+            $nameOrder = $_POST['nameOrder'];
+            $phoneNumber = $_POST['phoneNumber'];
+            $email = $_POST['email'];
+        }
+
+        $result = $this->OrderModel->EditOrder($idOrder, $nameOrder, $phoneNumber, $email, $status);
+
+        if ($result) {
+            header('location: /php_mvc/admin/OrderManagementAdmin/');
+        }
+        $this->renderAdminView('editOrderAdmin', []);
     }
 }

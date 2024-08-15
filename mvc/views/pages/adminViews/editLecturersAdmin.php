@@ -1,12 +1,12 @@
 <?php
 
-    $editLecturers = mysqli_fetch_array($data['editLecturers']);
+$editLecturers = mysqli_fetch_array($data['editLecturers']);
 
 ?>
 <div class="table_content">
   <button class="button_return" onclick="history.back()">TRỞ LẠI</button>
 
-  <form onsubmit="return check_editLectures()" name="form_insertlectures" class="modal_form" method="POST"  enctype="multipart/form-data">
+  <form onsubmit="return check_editLectures()" name="form_insertlectures" class="modal_form" method="POST" enctype="multipart/form-data">
     <label for="TenGiangVien">Tên giảng viên:</label>
     <input value="<?= $editLecturers['user_name'] ?>" type="text" placeholder="Nhập tên giảng viên" required="true" name="user_name" id="user_name">
     <label for="TenGiangVien">Mã giảng viên:</label>
@@ -14,8 +14,8 @@
     <label for="TenGiangVien">Mật Khẩu :</label>
 
     <label for="fileUser_img">Chọn File Hình Ảnh:</label>
-    <input type="file" id="fileUser_img" name="fileUser_img" >
-    <input type="text" id="fileUser_img_tmp" name="fileUser_img_tmp" value="<?=$editLecturers['user_img']  ?>" readonly>
+    <input type="file" id="fileUser_img" name="fileUser_img">
+    <input type="text" id="fileUser_img_tmp" name="fileUser_img_tmp" value="<?= $editLecturers['user_img']  ?>" readonly>
 
     <input value="<?= $editLecturers['user_password'] ?>" type="password" placeholder="Nhập mật khẩu" required="true" name="user_password" id="user_password">
     <label for="TenGiangVien">Mail giảng viên:</label>
